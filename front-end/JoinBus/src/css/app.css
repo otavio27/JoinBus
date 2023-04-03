@@ -1,1 +1,331 @@
 /* app global css */
+
+#title {
+  margin-top: 3rem;
+}
+
+.ow-card {
+  background-color: #ffff;
+  margin-top: calc(5%);
+  min-height: calc(75vh);
+}
+
+.grid {
+  display: grid;
+  place-items: center;
+}
+
+.grid-footer {
+  display: grid;
+  place-items: center;
+  text-decoration: none;
+  text-align: center;
+  height: 3rem;
+}
+
+.grid-top {
+  display: grid;
+  place-items: center;
+  margin-top: auto;
+}
+
+.grid-left {
+  display: grid;
+  place-items: left;
+}
+
+.grid-right {
+  display: grid;
+  place-items: right;
+}
+
+#inline-left {
+  position: relative;
+  width: 33.333%;
+  height: 33.333%;
+  display: inline-block;
+}
+
+#inline-center {
+  position: relative;
+  width: 33.333%;
+  height: 33.333%;
+  display: inline-block;
+}
+
+#inline-right {
+  position: relative;
+  width: 33.333%;
+  height: 33.333%;
+  display: inline-block;
+}
+
+.bar,
+.ow-button {
+  padding: 12px;
+}
+
+.hide {
+  display: none;
+}
+
+.control #control {
+  display: block;
+}
+
+.params #params {
+  display: block;
+}
+
+.ow-btn {
+  width: 80px;
+  height: 50px;
+  margin-top: 5px;
+  display: inline-block;
+  padding: 10px 25px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: black;
+  background-color: #00e6e6;
+  border: none;
+  border-radius: 9px;
+  box-shadow: 0 7px #00b1b1;
+}
+
+.ow-btn.ow-on {
+  width: 80px;
+  height: 50px;
+  margin-top: 5px;
+  display: inline-block;
+  padding: 10px 25px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: black;
+  border: none;
+  border-radius: 9px;
+  background-color: #ff0000;
+  box-shadow: 0 4px #940404;
+  transform: translateY(3px);
+}
+
+.ow-submit {
+  display: inline-block;
+  padding: 10px 20px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: black;
+  background-color: #00e6e6;
+  border: none;
+  border-radius: 9px;
+  box-shadow: 0 7px #00b1b1;
+}
+
+.ow-submit:active {
+  background-color: #ff0000;
+  box-shadow: 0 4px #940404;
+  transform: translateY(3px);
+}
+
+.ow-update {
+  display: inline-block;
+  padding: 5px 10px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: black;
+  background-color: #00e6e6;
+  border: none;
+  border-radius: 9px;
+  box-shadow: 0 7px #00b1b1;
+}
+
+.ow-update:active {
+  background-color: #ff0000;
+  box-shadow: 0 4px #940404;
+  transform: translateY(3px);
+}
+
+.ow-reset-comp {
+  display: inline-block;
+  padding: 5px 10px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: black;
+  background-color: #00e6e6;
+  border: none;
+  border-radius: 9px;
+  box-shadow: 0 7px #00b1b1;
+}
+
+.ow-reset-comp:active {
+  background-color: #ff0000;
+  box-shadow: 0 4px #940404;
+  transform: translateY(3px);
+}
+
+.ow-reset-acj {
+  display: inline-block;
+  padding: 5px 10px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: black;
+  background-color: #00e6e6;
+  border: none;
+  border-radius: 9px;
+  box-shadow: 0 7px #00b1b1;
+}
+
+.ow-reset-acj:active {
+  background-color: #ff0000;
+  box-shadow: 0 4px #940404;
+  transform: translateY(3px);
+}
+
+.ow-set {
+  width: 4rem;
+  height: 37px;
+  margin: 3px;
+  display: inline-block;
+  padding: 10px 10px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: black;
+  background-color: #00e6e6;
+  border: none;
+  border-radius: 9px;
+  box-shadow: 0 6px #00b1b1;
+}
+
+.ow-set:active {
+  background-color: #ff0000;
+  box-shadow: 0 4px #940404;
+  transform: translateY(3px);
+}
+
+.ow-text-white,
+.ow-hover-text-white:hover {
+  color: #fff;
+}
+
+.ow-text-yellow {
+  color: yellow;
+}
+
+.ow-text-blue {
+  color: rgb(0, 0, 252);
+}
+
+.ow-text-set {
+  margin-top: 10px;
+  color: #fff;
+}
+
+.ow-text-temp {
+  font-size: 1.3rem;
+  color: #fff;
+}
+
+.ow-text-temp-set {
+  font-size: 1rem;
+  color: #fff;
+}
+
+.ow-blue {
+  font-size: 1.3rem;
+  color: #297fff;
+}
+
+.ow-yellow {
+  font-size: 1.3rem;
+  color: #e1fa00;
+}
+
+.ow-red {
+  font-size: 1.3rem;
+  color: hsl(0, 100%, 50%);
+}
+
+.ow-blue-set {
+  color: #297fff;
+}
+
+.ow-yellow-set {
+  color: #e1fa00;
+}
+
+.ow-red-set {
+  color: hsl(0, 100%, 50%);
+}
+
+.ow-compress-off {
+  font-size: 1.5rem;
+  color: #45ff2f;
+}
+
+.ow-compress-on {
+  font-size: 1.5rem;
+  color: #ff0000;
+}
+
+.ow-text-hours {
+  color: #f80303;
+  font-size: 15px;
+}
+
+.ow-text-hours-on {
+  color: #f80303;
+  font-size: 15px;
+}
+
+.ow-text-hours-off {
+  color: #45ff2f;
+  font-size: 15px;
+}
+
+.ow-router-link {
+  color: white;
+  float: left;
+  width: auto;
+  border: none;
+  display: block;
+  text-decoration: none;
+}
+
+.ow-bar-item {
+  color: black;
+  padding: 0 5px;
+  float: left;
+  width: auto;
+  border: none;
+  display: block;
+  text-decoration: none;
+}
+
+.ow-span {
+  color: #3f5fec;
+}
+
+.ow-span-time {
+  color: #4bd8d8;
+}
+
+.ow-span-start {
+  color: #f80303;
+}
+
+.ow-span-stop {
+  color: green;
+}
