@@ -17,6 +17,7 @@ export default function useNotify() {
       position: "top",
       progress: true,
       type: "negative",
+      actions: [{ icon: "close", color: "white" }],
       message: msg,
     });
   };
@@ -26,6 +27,7 @@ export default function useNotify() {
       position: "top",
       progress: true,
       type: "positive",
+      actions: [{ icon: "check", color: "white" }],
       message: msg,
     });
   };

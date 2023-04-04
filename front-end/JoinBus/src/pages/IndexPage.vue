@@ -30,9 +30,16 @@
       </div>
 
       <div class="grid q-pa-md q-gutter-sm">
-        <q-btn color="primary" style="width: 70%">
+        <q-btn color="primary" style="width: 70%" @click="getGeolocation">
           <div class="ellipsis">Localização</div>
         </q-btn>
+      </div>
+
+      <div class="row justify-center">
+        <div class="col-10 text-center">
+          <p>Latitude: {{ latitude }}</p>
+          <p>Longitude: {{ longitude }}</p>
+        </div>
       </div>
 
       <form
@@ -69,11 +76,41 @@
 
 <script setup>
 import { ref } from "vue";
+import { useQuasar } from "quasar";
 import useNotify from "src/composable/UseNotify";
 
-const { notifyDanger } = useNotify();
+const { notifyDanger, notifySuccsses } = useNotify();
+const $q = useQuasar();
 const text = ref("");
 const submitting = ref(false);
+
+let latitude = ref(null);
+let longitude = ref(null);
+
+const getGeolocation = () => {
+  if (navigator.geolocation) {
+    $q.loading.show();
+    navigator.geolocation.getCurrentPosition(setPosition, errorPosition);
+  } else {
+    errorPosition();
+  }
+};
+
+const setPosition = (position) => {
+  const coords = position.coords;
+  latitude.value = coords.latitude;
+  longitude.value = coords.longitude;
+  $q.loading.hide();
+  successNotify();
+};
+
+const errorPosition = () => {
+  notifyDanger("Não foi possível recuperar sua posição!"), $q.loading.hide();
+};
+
+const successNotify = () => {
+  notifySuccsses("Posição recuperada com sucesso!");
+};
 
 const simulateSubmit = () => {
   submitting.value = true;
