@@ -148,9 +148,9 @@ module.exports = configure(function (ctx) {
       },
 
       manifest: {
-        name: `JoinBus APP`,
-        short_name: `JoinBus APP`,
-        description: `A JoinBus Project`,
+        name: `JoinBus`,
+        short_name: `JoinBus`,
+        description: `O JoinBus é um aplicativo que exibe os horários de transporte público de Joinville.`,
         display: "standalone",
         orientation: "portrait",
         background_color: "#ffffff",
