@@ -28,20 +28,27 @@ register(process.env.SERVICE_WORKER_FILE, {
   },
 
   updated(/* registration */) {
-    register(process.env.SERVICE_WORKER_FILE, {
-      updated(/* registration */) {
-        Notify.create({
-          color: "negative",
-          icon: mdiCached,
-          message: "Atualização disponível. Atualize a página.",
-          timeout: 0,
-          multiLine: true,
-          position: "top",
-          actions: [
-            /*...*/
-          ],
-        });
-      },
+    Notify.create({
+      color: "negative",
+      icon: mdiCached,
+      message: "Atualização disponível. Atualize a página.",
+      timeout: 0,
+      multiLine: true,
+      position: "top",
+      actions: [
+        {
+          label: "Refresh",
+          color: "yellow",
+          handler: () => {
+            window.location.reload();
+          },
+        },
+        {
+          label: "Dismiss",
+          color: "white",
+          handler: () => {},
+        },
+      ],
     });
   },
 
