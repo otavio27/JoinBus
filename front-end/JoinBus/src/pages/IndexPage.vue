@@ -90,26 +90,32 @@ let longitude = ref(null);
 const getGeolocation = () => {
   if (navigator.geolocation) {
     $q.loading.show();
-    navigator.geolocation.getCurrentPosition(setPosition, errorPosition);
+    navigator.geolocation.getCurrentPosition(sendGeoLocation, errorPosition);
   } else {
     errorPosition();
   }
 };
 
-const setPosition = (position) => {
+const sendGeoLocation = () => {
   const coords = position.coords;
-  latitude.value = coords.latitude;
-  longitude.value = coords.longitude;
-  $q.loading.hide();
-  successNotify();
+  this.$api
+    .post("/api/geolocation/", {
+      latitude: coords.latitude,
+      longitude: coords.longitude,
+    })
+    .then(function (response) {
+      $q.loading.hide();
+      notifySuccsses(response.data);
+    })
+    .catch(function (error) {
+      $q.loading.hide();
+      errorPosition(error);
+    });
 };
 
-const errorPosition = () => {
-  notifyDanger("Não foi possível recuperar sua posição!"), $q.loading.hide();
-};
-
-const successNotify = () => {
-  notifySuccsses("Posição recuperada com sucesso!");
+const errorPosition = (error) => {
+  notifyDanger(`Não foi possível enviar sua localização! ${error}`),
+    $q.loading.hide();
 };
 
 const simulateSubmit = () => {
