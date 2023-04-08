@@ -2,37 +2,25 @@ package main
 
 import (
 	"context"
-	"encoding/json"
 	"log"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/otavio27/JoinBus-APP/back-end/controllers"
 	"github.com/otavio27/JoinBus-APP/back-end/onibus"
-	"github.com/otavio27/JoinBus-APP/back-end/structs"
 	"github.com/vingarcia/krest"
 )
 
+var ctx = context.Background()
+var app = fiber.New()
+var http = krest.New(30 * time.Second)
+var ons = onibus.New(http, ctx)
+var cto = controllers.New(ctx, http, *ons)
+
 func main() {
-	ctx := context.Background()
-
-	http := krest.New(30 * time.Second)
-	app := fiber.New()
-	onibus := onibus.New(http)
-
-	app.Get("/api/geolocation", func(c *fiber.Ctx) error {
-		var coord structs.Coordinate
-		err := json.Unmarshal(c.Body(), &coord)
-		if err != nil {
-			return err
-		}
-
-		body, err := onibus.GetGeoLocation(ctx, coord.Latitude, coord.Longitude)
-		if err != nil {
-			return err
-		}
-
-		return c.JSON(body)
-	})
+	app.Get("/api/geolocation", cto.GetLocation)
+	app.Get("/api/linhas/:id", cto.GetLines)
+	app.Get("/api/terminais", cto.GetTerminals)
 
 	log.Fatal(app.Listen(":3000"))
 }

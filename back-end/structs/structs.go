@@ -5,6 +5,36 @@ type Coordinate struct {
 	Longitude float64
 }
 
+type routes struct {
+	RouteID       string `json:"route_id"`
+	RouteLongName string `json:"route_long_name"`
+}
+
+type timedata struct {
+	TripID        string `json:"trip_id"`
+	DepartureTime string `json:"departure_time"`
+}
+
+type servicedata struct {
+	ServiceID string       `json:"service_id"`
+	Type      string       `json:"service_name"`
+	TimeData  [][]timedata `json:"time_data"`
+}
+
+type stopdata struct {
+	StopID       string        `json:"stop_id"`
+	StopName     string        `json:"stop_name"`
+	StopSequence int           `json:"stop_sequence"`
+	ServiceData  []servicedata `json:"service_data"`
+}
+
+type MyStations struct {
+	StationName   string   `json:"station_name"`
+	Routes        []routes `json:"routes"`
+	RouteID       string   `json:"route_id"`
+	RouteLongName string   `json:"route_long_name"`
+}
+
 type MyLocation struct {
 	StopID       string `json:"stop_id"`
 	StopName     string `json:"stop_name"`
@@ -36,4 +66,13 @@ type MyStopList struct {
 		DistanceDiff   int     `json:"distance_diff,omitempty"`
 		ReportTimeDiff int     `json:"report_time_diff,omitempty"`
 	} `json:"trips"`
+}
+
+type LineStruct struct {
+	Routes        []routes   `json:"routes"`
+	StopData      []stopdata `json:"stop_data"`
+	RouteID       string     `json:"route_id"`
+	Direction     string     `json:"direction"`
+	ServiceName   string     `json:"service_name"`
+	DepartureTime string     `json:"departure_time"`
 }
