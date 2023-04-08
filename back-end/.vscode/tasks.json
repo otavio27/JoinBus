@@ -1,0 +1,16 @@
+{
+  "version": "2.0.0",
+  "cwd": "${workspaceFolder}",
+  "type": "shell",
+  "command": "go",
+  "tasks": [
+    {
+      "label": "go: start api",
+      "args": ["run", "cmd/main.go"],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    }
+  ]
+}

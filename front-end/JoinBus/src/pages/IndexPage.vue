@@ -99,7 +99,7 @@ const getGeolocation = () => {
 const sendGeoLocation = () => {
   const coords = position.coords;
   this.$api
-    .post("/api/geolocation/", {
+    .get("/api/geolocation", {
       latitude: coords.latitude,
       longitude: coords.longitude,
     })
