@@ -11,13 +11,13 @@ import (
 	"github.com/vingarcia/krest"
 )
 
-var ctx = context.Background()
-var app = fiber.New()
-var http = krest.New(30 * time.Second)
-var ons = onibus.New(http, ctx)
-var cto = controllers.New(ctx, http, *ons)
-
 func main() {
+	ctx := context.Background()
+	app := fiber.New()
+	http := krest.New(30 * time.Second)
+	ons := onibus.New(http, ctx)
+	cto := controllers.New(ctx, http, *ons)
+
 	app.Get("/api/geolocation", cto.GetLocation)
 	app.Get("/api/linhas/:id", cto.GetLines)
 	app.Get("/api/terminais", cto.GetTerminals)

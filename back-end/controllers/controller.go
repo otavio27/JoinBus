@@ -15,7 +15,6 @@ import (
 
 type Controllers struct {
 	module string
-	ctx    context.Context
 	http   krest.Provider
 	ons    onibus.Adapter
 }
@@ -23,7 +22,6 @@ type Controllers struct {
 func New(ctx context.Context, http krest.Provider, ons onibus.Adapter) *Controllers {
 	return &Controllers{
 		module: "Controllers",
-		ctx:    ctx,
 		http:   http,
 		ons:    ons,
 	}
@@ -46,7 +44,7 @@ func (cto Controllers) GetLocation(c *fiber.Ctx) error {
 		return fmt.Errorf("fail to parse body as JSON: " + err.Error())
 	}
 
-	var linhas []map[string]string
+	var linhas []map[string]any
 	var Name, Id, Router string
 	var hours []string
 
@@ -58,7 +56,7 @@ func (cto Controllers) GetLocation(c *fiber.Ctx) error {
 			HRS := strings.Split(hora.Eta, ":")
 			hours = append(hours, HRS[0]+":"+HRS[1])
 		}
-		linhas = append(linhas, map[string]string{
+		linhas = append(linhas, map[string]any{
 			"NearPoint": stopName[0],
 			"ID":        Id,
 			"Name":      Name,
@@ -68,7 +66,7 @@ func (cto Controllers) GetLocation(c *fiber.Ctx) error {
 	}
 
 	if len(linhas) == 0 {
-		return c.JSON(map[string]string{"Warning": "Não há linhas que rodam nesta localização, ou nas próximas horas."})
+		return c.JSON(map[string]any{"Warning": "Não há linhas que rodam nesta localização, ou nas próximas horas."})
 	}
 
 	return c.JSON(linhas)
@@ -91,7 +89,7 @@ func (cto Controllers) GetLines(c *fiber.Ctx) error {
 	var direction string
 	var operatesToday bool
 	var hours []string
-	var linha []map[string]string
+	var linha []map[string]any
 
 	for _, data := range lines {
 		for _, stopData := range data.StopData {
@@ -114,13 +112,13 @@ func (cto Controllers) GetLines(c *fiber.Ctx) error {
 				}
 			}
 
-			linha = append(linha, map[string]string{
+			linha = append(linha, map[string]any{
 				"Weekday":   cto.getServiceTypeForToday(),
 				"ID":        id,
-				"Name":      cto.GetnameLines(c.Context(), id),
+				"Name":      cto.getNameLines(c.Context(), id),
 				"Station":   stopData.StopName,
 				"Direction": direction,
-				"Hours":     strings.Join(hours, " "),
+				"Hours":     hours,
 			})
 		}
 	}
@@ -128,12 +126,12 @@ func (cto Controllers) GetLines(c *fiber.Ctx) error {
 	if operatesToday {
 		return c.JSON(linha)
 	}
-	return c.JSON(map[string]string{"Warning": "Linha sem operação nesta data!"})
+	return c.JSON(map[string]any{"Warning": "Linha sem operação nesta data!"})
 }
 
 // GetTerminals é uma função que retorna informações sobre terminais em um objeto JSON.
 func (cto Controllers) GetTerminals(c *fiber.Ctx) error {
-	body, err := cto.ons.GetjsonTerminals(cto.ctx)
+	body, err := cto.ons.GetjsonTerminals(c.Context())
 	if err != nil {
 		return err
 	}
@@ -153,8 +151,8 @@ func (cto Controllers) GetTerminals(c *fiber.Ctx) error {
 	return c.JSON(terminals)
 }
 
-// GetnameLines retona os nomes das linhas contidas no terminal
-func (cto Controllers) GetnameLines(ctx context.Context, text string) string {
+// getNameLines retona os nomes das linhas contidas no terminal
+func (cto Controllers) getNameLines(ctx context.Context, text string) string {
 	var linename string
 
 	body, err := cto.ons.GetjsonTerminals(ctx)
