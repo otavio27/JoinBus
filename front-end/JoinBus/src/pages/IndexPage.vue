@@ -77,6 +77,7 @@
 <script setup>
 import { ref } from "vue";
 import { useQuasar } from "quasar";
+import axios from "axios";
 import useNotify from "src/composable/UseNotify";
 
 const { notifyDanger, notifySuccsses } = useNotify();
@@ -96,16 +97,15 @@ const getGeolocation = () => {
   }
 };
 
-const sendGeoLocation = () => {
-  const coords = position.coords;
-  this.$api
-    .get("/api/geolocation", {
-      latitude: coords.latitude,
-      longitude: coords.longitude,
+const sendGeoLocation = (position) => {
+  axios
+    .get("https://owtechsystems.com/api/geolocation", {
+      latitude: position.coords.latitude,
+      longitude: position.coords.loading,
     })
     .then(function (response) {
       $q.loading.hide();
-      notifySuccsses(response.data);
+      console.log(response.data);
     })
     .catch(function (error) {
       $q.loading.hide();
