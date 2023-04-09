@@ -22,5 +22,5 @@ func main() {
 	app.Get("/api/linhas/:id", cto.GetLines)
 	app.Get("/api/terminais", cto.GetTerminals)
 
-	log.Fatal(app.Listen(":3000"))
+	log.Fatal(app.Listen(":8000"))
 }
