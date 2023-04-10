@@ -95,10 +95,14 @@ const getGeolocation = () => {
 };
 
 const apiSearchByLocation = (position) => {
+  var lat = position.coords.latitude;
+  var lng = position.coords.longitude;
   axios
-    .get(
-      `https://owtechsystems.com/api/geolocation?lat=${position.coords.latitude}&lng=${position.coords.longitude}`
-    )
+    .get(`https://owtechsystems.com/api/geolocation?lat=${lat}&lng=${lng}`, {
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+      },
+    })
     .then(function (response) {
       $q.loading.hide();
       console.log(response.data);

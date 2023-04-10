@@ -20,8 +20,8 @@ func main() {
 	cto := controllers.New(ctx, http, *ons)
 
 	app.Use(cors.New(cors.Config{
-		AllowOrigins: "*",
-		AllowHeaders: "*",
+		AllowOrigins: "https://owtechsystems.com",
+		AllowHeaders: "Oringin, Content-Type, Accept",
 	}))
 
 	app.Get("/api/geolocation", cto.GetLocation)
