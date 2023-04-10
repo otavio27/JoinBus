@@ -27,10 +27,8 @@ func New(http krest.Provider, ctx context.Context) *Adapter {
 }
 
 // GetLocation busca as linhas mais proximas da localização passada pelo app
-func (a Adapter) GetGeoLocation(latitude float64, longitude float64) ([]byte, []string, error) {
-	latd := fmt.Sprintf("%f", latitude)
-	logd := fmt.Sprintf("%f", longitude)
-	url := "https://onibus.info/api/stopsnear?lat=" + latd + "&lng=" + logd
+func (a Adapter) GetGeoLocation(latitude string, longitude string) ([]byte, []string, error) {
+	url := "https://onibus.info/api/stopsnear?lat=" + latitude + "&lng=" + longitude
 	resp, err := a.http.Get(a.ctx, url, krest.RequestData{
 		Headers: map[string]string{
 			"Referer":    "https://onibus.info/mapa/",
