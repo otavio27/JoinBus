@@ -2,20 +2,14 @@
   <div class="q-pa-sm">
     <q-card class="ow-card">
       <div class="grid q-pa-md q-gutter-sm">
-        <q-btn color="primary" style="width: 70%">
-          <div class="ellipsis">
-            <RouterLink class="ow-router-link" to="/linhas">Linhas</RouterLink>
-          </div>
+        <q-btn color="primary" style="width: 70%" @click="getLines">
+          <div class="ellipsis">Linhas</div>
         </q-btn>
       </div>
 
       <div class="grid q-pa-md q-gutter-sm">
-        <q-btn color="primary" style="width: 70%">
-          <div class="ellipsis">
-            <RouterLink class="ow-router-link" to="/terminais"
-              >Terminais</RouterLink
-            >
-          </div>
+        <q-btn color="primary" style="width: 70%" @click="getTerminals">
+          <div class="ellipsis">Terminais</div>
         </q-btn>
       </div>
 
@@ -91,18 +85,46 @@ let longitude = ref(null);
 const getGeolocation = () => {
   if (navigator.geolocation) {
     $q.loading.show();
-    navigator.geolocation.getCurrentPosition(sendGeoLocation, errorPosition);
+    navigator.geolocation.getCurrentPosition(
+      apiSearchByLocation,
+      errorPosition
+    );
   } else {
     errorPosition();
   }
 };
 
-const sendGeoLocation = (position) => {
+const apiSearchByLocation = (position) => {
   axios
-    .get("https://owtechsystems.com/api/geolocation", {
-      latitude: position.coords.latitude,
-      longitude: position.coords.loading,
+    .get(
+      `https://owtechsystems.com/api/geolocation?lat=${position.coords.latitude}&lng=${position.coords.longitude}`
+    )
+    .then(function (response) {
+      $q.loading.hide();
+      console.log(response.data);
     })
+    .catch(function (error) {
+      $q.loading.hide();
+      errorPosition(error);
+    });
+};
+
+const getTerminals = () => {
+  axios
+    .get("https://owtechsystems.com/api/terminais")
+    .then(function (response) {
+      $q.loading.hide();
+      console.log(response.data);
+    })
+    .catch(function (error) {
+      $q.loading.hide();
+      errorPosition(error);
+    });
+};
+
+const getLines = () => {
+  axios
+    .get("https://owtechsystems.com/api/linhas/0300")
     .then(function (response) {
       $q.loading.hide();
       console.log(response.data);

@@ -28,13 +28,10 @@ func New(ctx context.Context, http krest.Provider, ons onibus.Adapter) *Controll
 }
 
 func (cto Controllers) GetLocation(c *fiber.Ctx) error {
-	var coord structs.Coordinate
-	err := json.Unmarshal(c.Body(), &coord)
-	if err != nil {
-		return fmt.Errorf("location search failed %s", err.Error())
-	}
+	latitude := c.Params("lat")
+	longitude := c.Params("lng")
 
-	body, stopName, err := cto.ons.GetGeoLocation(coord.Latitude, coord.Longitude)
+	body, stopName, err := cto.ons.GetGeoLocation(latitude, longitude)
 	if err != nil {
 		return err
 	}
