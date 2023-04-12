@@ -19,14 +19,12 @@ func main() {
 	ons := onibus.New(http, ctx)
 	cto := controllers.New(ctx, http, *ons)
 
-	app.Use(cors.New(cors.Config{
-		AllowOrigins: "https://owtechsystems.com",
-		AllowHeaders: "Oringin, Content-Type, Accept",
-	}))
+	app.Use(cors.New())
 
-	app.Get("/api/geolocation", cto.GetLocation)
+	app.Get("/api/geolocation/:lat/:lng", cto.GetLocation)
 	app.Get("/api/linhas/:id", cto.GetLines)
 	app.Get("/api/terminais", cto.GetTerminals)
+	app.Get("/api/routes/:route", cto.GetRoutes)
 
 	log.Fatal(app.Listen(":8000"))
 }

@@ -72,6 +72,11 @@ func (a Adapter) GetGeoLocation(latitude string, longitude string) ([]byte, []st
 // GetStopTripList busca as linhas que passam pelo ponto informado através da localização
 func (a Adapter) GetStopTripList(ctx context.Context, stop []string, stopName []string) ([]byte, []string, error) {
 	var stoplist []byte
+
+	if len(stop) == 0 {
+		return nil, nil, fmt.Errorf("variavel stop está vazia")
+	}
+
 	for _, std := range stop[:2] {
 		url := "https://onibus.info/api/stoptrips/" + std
 
@@ -109,8 +114,8 @@ func (a Adapter) GetStopTripList(ctx context.Context, stop []string, stopName []
 }
 
 // GetjsonLines função que tem responssabilidade de busacar os horários da linha quando passada por nome ou ID
-func (a Adapter) GetjsonLines(ctx context.Context, text string) ([]byte, error) {
-	url := "https://onibus.info/api/timetable/" + text
+func (a Adapter) GetjsonLines(ctx context.Context, id string) ([]byte, error) {
+	url := "https://onibus.info/api/timetable/" + id
 
 	resp, err := a.http.Get(ctx, url, krest.RequestData{
 		Headers: map[string]string{
@@ -152,7 +157,7 @@ func (a Adapter) GetjsonTerminals(ctx context.Context) ([]byte, error) {
 	})
 	if err != nil {
 		if resp.StatusCode == 404 {
-			return nil, fmt.Errorf("onibus.info/api/timetable/ was not found! %s", err)
+			return nil, fmt.Errorf("onibus.info/api/routes/group/ was not found! %s", err)
 		}
 		return nil, fmt.Errorf("unexpected error when fetching example.com: %s", err)
 	}

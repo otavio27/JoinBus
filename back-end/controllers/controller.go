@@ -30,7 +30,6 @@ func New(ctx context.Context, http krest.Provider, ons onibus.Adapter) *Controll
 func (cto Controllers) GetLocation(c *fiber.Ctx) error {
 	latitude := c.Params("lat")
 	longitude := c.Params("lng")
-
 	body, stopName, err := cto.ons.GetGeoLocation(latitude, longitude)
 	if err != nil {
 		return err
@@ -110,12 +109,12 @@ func (cto Controllers) GetLines(c *fiber.Ctx) error {
 			}
 
 			linha = append(linha, map[string]any{
-				"Weekday":   cto.getServiceTypeForToday(),
-				"ID":        id,
-				"Name":      cto.getNameLines(c.Context(), id),
-				"Station":   stopData.StopName,
-				"Direction": direction,
-				"Hours":     hours,
+				"weekday":   cto.getServiceTypeForToday(),
+				"id":        id,
+				"name":      cto.getNameLines(c.Context(), id),
+				"station":   stopData.StopName,
+				"direction": direction,
+				"hours":     hours,
 			})
 		}
 	}
@@ -139,13 +138,48 @@ func (cto Controllers) GetTerminals(c *fiber.Ctx) error {
 		return fmt.Errorf("Unmarshal error, not found files %s", err)
 	}
 
-	var terminals []map[string]string
+	var terminals map[string]any
+	var terms []string
 	for _, TRM := range Stations {
-		terminals = append(terminals, map[string]string{
-			"Station": TRM.StationName,
-		})
+		terms = append(terms, TRM.StationName)
 	}
+
+	terminals = map[string]any{
+		"name": terms,
+	}
+
 	return c.JSON(terminals)
+}
+
+// GetRoutes é uma função que retorna informações sobre terminais em um objeto JSON.
+func (cto Controllers) GetRoutes(c *fiber.Ctx) error {
+	rtes := c.Params("route")
+	fmt.Printf("Valor de route: %s\n", rtes)
+	body, err := cto.ons.GetjsonTerminals(c.Context())
+	if err != nil {
+		return err
+	}
+
+	var Stations []structs.MyStations
+	err = json.Unmarshal(body, &Stations)
+	if err != nil {
+		return fmt.Errorf("Unmarshal error, not found files %s", err)
+	}
+
+	var routes map[string]any
+	var route []string
+	for _, rte := range Stations {
+		if rte.StationName == rtes {
+			fmt.Printf("Valor de StationName: %s\n", rte.StationName)
+			route = append(route, rte.RouteLongName)
+		}
+	}
+
+	routes = map[string]any{
+		"name": route,
+	}
+
+	return c.JSON(routes)
 }
 
 // getNameLines retona os nomes das linhas contidas no terminal
