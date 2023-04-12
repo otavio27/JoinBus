@@ -8,12 +8,19 @@
   "scripts": {
     "lint": "eslint --ext .js,.vue ./",
     "format": "prettier --write \"**/*.{js,vue,css,html,md,json}\" --ignore-path .gitignore",
-    "test": "echo \"No test specified\" && exit 0"
+    "test": "echo \"No test specified\" && exit 0",
+    "dev": "yarn dev:develop",
+    "dev:develop": "yarn cross-env QENV=dev quasar dev",
+    "dev:production": "yarn cross-env QENV=prod quasar dev",
+    "build": "yarn build:production",
+    "build:develop": "yarn cross-env QENV=dev quasar build --debug",
+    "build:production": "yarn cross-env QENV=prod quasar build"
   },
   "dependencies": {
     "@capacitor/geolocation": "^4.1.0",
     "@googlemaps/js-api-loader": "^1.15.1",
     "@quasar/extras": "^1.0.0",
+    "@vueuse/core": "^9.13.0",
     "axios": "^1.2.1",
     "capacitor": "^0.5.5",
     "core-js": "^3.6.5",
