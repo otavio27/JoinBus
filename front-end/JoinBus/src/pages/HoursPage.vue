@@ -19,9 +19,14 @@
           <span class="text-h6 text-center">{{ hour.name }}</span>
         </q-card-section>
         <q-card-section class="q-gutter-sm">
-          <q-input filled readonly label="Station" v-model="hour.station" />
-          <q-input filled readonly label="Direction" v-model="hour.direction" />
-          <q-input filled readonly label="Weekday" v-model="hour.weekday" />
+          <q-input filled readonly label="Estação" v-model="hour.station" />
+          <q-input filled readonly label="Direceção" v-model="hour.direction" />
+          <q-input
+            filled
+            readonly
+            label="Dia da Semana"
+            v-model="hour.weekday"
+          />
         </q-card-section>
         <q-card-section class="q-gutter-sm">
           <q-chip
