@@ -2,7 +2,7 @@
   <q-page class="flex flex-center">
     <q-card class="q-ma-md full-width" style="max-width: 540px">
       <q-card-section class="text-center text-h6">
-        <span>{{ terminal }} - Hello World</span>
+        <span>{{ terminal }}</span>
       </q-card-section>
       <q-separator></q-separator>
       <q-card-section class="row q-col-gutter-y-md">
