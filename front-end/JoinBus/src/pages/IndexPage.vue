@@ -46,7 +46,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref } from "vue";
 import { useGeolocation } from "@vueuse/core";
 
 const props = defineProps({
@@ -58,11 +58,9 @@ const props = defineProps({
 
 const text = ref("");
 
-const sendGeoLocation = async () => {
+const sendGeoLocation = () => {
   const { coords } = useGeolocation();
-  const latitude = coords.latitude;
-  const longitude = coords.longitude;
-  console.log(latitude, " ", longitude);
+  console.log(coords.latitude, " ", coords.longitude);
 };
 
 const sendSubmit = () => {
