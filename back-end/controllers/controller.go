@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"net/url"
+	"regexp"
 	"strings"
 	"time"
 
@@ -13,6 +14,8 @@ import (
 	"github.com/otavio27/JoinBus-APP/back-end/onibus"
 	"github.com/otavio27/JoinBus-APP/back-end/structs"
 	"github.com/vingarcia/krest"
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 )
 
 type Controllers struct {
@@ -124,7 +127,7 @@ func (cto Controllers) GetLines(c *fiber.Ctx) error {
 	if operatesToday {
 		return c.JSON(linha)
 	}
-	return c.JSON(map[string]any{"Warning": "Linha sem operação nesta data!"})
+	return c.JSON(map[string]any{"warning": "Linha sem operação nesta data!"})
 }
 
 // GetTerminals é uma função que retorna informações sobre terminais em um objeto JSON.
@@ -215,6 +218,47 @@ func (cto Controllers) getNameLines(ctx context.Context, text string) string {
 		}
 	}
 	return linename
+}
+
+// GetlinesRegexp busaca todas as linhas com o nome ou letra passada no argumento text
+func (cto Controllers) GetlinesRegexp(c *fiber.Ctx) error {
+	text := c.Params("text")
+
+	var res string
+	if len(text) > 1 {
+		res = cases.Title(language.Portuguese).String(text)
+	} else {
+		res = cases.Upper(language.Portuguese).String(text)
+	}
+
+	body, err := cto.ons.GetjsonTerminals(c.Context())
+	if err != nil {
+		return err
+	}
+
+	var Stations []structs.MyStations
+	err = json.Unmarshal(body, &Stations)
+	if err != nil {
+		return fmt.Errorf("Unmarshal error, not found files %s", err)
+	}
+
+	var linhas []map[string]any
+	for _, station := range Stations {
+		for _, route := range station.Routes {
+			matched, _ := regexp.MatchString(`^`+res+`.*`, route.RouteLongName)
+			if matched {
+				linhas = append(linhas, map[string]any{
+					"name": route.RouteLongName,
+					"id":   route.RouteID,
+				})
+			}
+		}
+	}
+
+	if len(text) == 0 {
+		return c.JSON(map[string]any{"Warning": "Linha não encontrada!"})
+	}
+	return c.JSON(linhas)
 }
 
 func (cto Controllers) getServiceTypeForToday() string {

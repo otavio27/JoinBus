@@ -1,5 +1,25 @@
 /* app global css */
 
+body.body--dark {
+  --q-primary: #26a69a;
+  --q-secondary: #027be3;
+  --q-accent: #9c27b0;
+  --q-positive: #21ba45;
+  --q-negative: #c10015;
+  --q-info: #31ccec;
+  --q-warning: #f2c037;
+}
+
+body.body--light {
+  --q-primary: #4f00b3;
+  --q-secondary: #26a69a;
+  --q-accent: #9c27b0;
+  --q-positive: #21ba45;
+  --q-negative: #c10015;
+  --q-info: #31ccec;
+  --q-warning: #f2c037;
+}
+
 #title {
   margin-top: 3rem;
 }
