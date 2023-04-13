@@ -25,6 +25,7 @@ func main() {
 	app.Get("/api/linhas/:id", cto.GetLines)
 	app.Get("/api/terminais", cto.GetTerminals)
 	app.Get("/api/routes/:route", cto.GetRoutes)
+	app.Get("/api/search/:text", cto.GetlinesRegexp)
 
 	log.Fatal(app.Listen(":8000"))
 }

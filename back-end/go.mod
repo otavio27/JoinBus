@@ -6,6 +6,7 @@ require (
 	github.com/boltdb/bolt v1.3.1
 	github.com/gofiber/fiber/v2 v2.43.0
 	github.com/vingarcia/krest v0.0.4
+	golang.org/x/text v0.8.0
 )
 
 require (

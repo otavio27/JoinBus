@@ -1,29 +1,29 @@
 <template>
   <div class="q-pa-sm">
-    <q-card class="ow-card">
-      <div class="grid q-pa-md q-gutter-sm">
-        <q-btn color="primary" style="width: 70%">
-          <div class="ellipsis">
+    <q-page class="flex flex-center">
+      <q-card class="q-ma-md full-width" style="max-width: 95%">
+        <div class="grid q-pa-md q-gutter-sm">
+          <q-btn color="primary" style="width: 70%">
             <RouterLink class="ow-router-link" to="/">Voltar</RouterLink>
-          </div>
-        </q-btn>
-      </div>
-      <div
-        class="grid q-pa-md q-gutter-sm"
-        v-for="station in stattions.name"
-        :key="station.id"
-      >
-        <q-btn
-          color="primary"
-          style="width: 70%"
-          :to="{ name: 'terminal', params: { terminal: station } }"
+          </q-btn>
+        </div>
+        <div
+          class="grid q-pa-md q-gutter-sm"
+          v-for="station in stattions.name"
+          :key="station.id"
         >
-          <div class="ellipsis">
-            {{ station }}
-          </div>
-        </q-btn>
-      </div>
-    </q-card>
+          <q-btn
+            color="primary"
+            style="width: 70%"
+            :to="{ name: 'terminal', params: { terminal: station } }"
+          >
+            <div class="ellipsis">
+              {{ station }}
+            </div>
+          </q-btn>
+        </div>
+      </q-card>
+    </q-page>
   </div>
 </template>
 <script setup>
