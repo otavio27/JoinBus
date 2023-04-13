@@ -3,7 +3,7 @@
     <div class="grid q-pa-md q-gutter-sm">
       <q-btn
         color="primary"
-        style="width: 720px"
+        style="width: 220px"
         :to="{ name: 'terminal', params: { terminal: props.terminal } }"
       >
         <div class="ellipsis">Voltar</div>
