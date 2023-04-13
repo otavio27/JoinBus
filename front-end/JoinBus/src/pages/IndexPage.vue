@@ -14,7 +14,7 @@
         </div>
 
         <div class="grid q-pa-md q-gutter-sm">
-          <q-btn color="primary" style="width: 70%">
+          <q-btn color="primary" style="width: 70%" @click="sendGeoLocation">
             <div class="ellipsis">Localização</div>
           </q-btn>
         </div>
@@ -56,13 +56,14 @@ const props = defineProps({
   },
 });
 
-const { coords } = useGeolocation();
-
 const text = ref("");
 
-const latitude = computed(() => coords.latitude);
-const longitude = computed(() => coords.longitude);
-console.log(latitude, " ", longitude);
+const sendGeoLocation = async () => {
+  const { coords } = useGeolocation();
+  const latitude = coords.latitude;
+  const longitude = coords.longitude;
+  console.log(latitude, " ", longitude);
+};
 
 const sendSubmit = () => {
   console.log(text.value);
