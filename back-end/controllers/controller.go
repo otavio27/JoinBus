@@ -4,6 +4,8 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"log"
+	"net/url"
 	"strings"
 	"time"
 
@@ -154,7 +156,12 @@ func (cto Controllers) GetTerminals(c *fiber.Ctx) error {
 // GetRoutes é uma função que retorna informações sobre terminais em um objeto JSON.
 func (cto Controllers) GetRoutes(c *fiber.Ctx) error {
 	rtes := c.Params("route")
-	fmt.Printf("Valor de route: %s\n", rtes)
+
+	path, err := url.PathUnescape(rtes)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	body, err := cto.ons.GetjsonTerminals(c.Context())
 	if err != nil {
 		return err
@@ -166,18 +173,21 @@ func (cto Controllers) GetRoutes(c *fiber.Ctx) error {
 		return fmt.Errorf("Unmarshal error, not found files %s", err)
 	}
 
-	var routes map[string]any
-	var route []string
+	var routes []map[string]any
+	var sts, id []string
 	for _, rte := range Stations {
-		if rte.StationName == rtes {
-			fmt.Printf("Valor de StationName: %s\n", rte.StationName)
-			route = append(route, rte.RouteLongName)
+		for _, r := range rte.Routes {
+			if rte.StationName == path {
+				id = append(id, r.RouteID)
+				sts = append(sts, r.RouteLongName)
+			}
 		}
 	}
 
-	routes = map[string]any{
-		"name": route,
-	}
+	routes = append(routes, map[string]any{
+		"id":   id,
+		"name": sts,
+	})
 
 	return c.JSON(routes)
 }

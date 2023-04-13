@@ -1,4 +1,5 @@
 import { register } from "register-service-worker";
+import { Notify } from "quasar";
 
 // The ready(), registered(), cached(), updatefound() and updated()
 // events passes a ServiceWorkerRegistration instance in their arguments.
@@ -31,7 +32,7 @@ register(process.env.SERVICE_WORKER_FILE, {
     Notify.create({
       color: "negative",
       icon: mdiCached,
-      message: "Atualização disponível. Atualize a página.",
+      message: "Updated content is available. Please refresh the page.",
       timeout: 0,
       multiLine: true,
       position: "top",

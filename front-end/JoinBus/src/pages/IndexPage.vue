@@ -12,7 +12,7 @@
       <div class="grid q-pa-md q-gutter-sm">
         <q-btn color="primary" style="width: 70%">
           <div class="ellipsis">
-            <RouterLink class="ow-router-link" to="/terminais"
+            <RouterLink class="ow-router-link" :to="{ name: 'terminais' }"
               >Terminais</RouterLink
             >
           </div>
