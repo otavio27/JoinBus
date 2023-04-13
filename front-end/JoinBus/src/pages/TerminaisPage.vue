@@ -1,6 +1,13 @@
 <template>
   <div class="q-pa-sm">
     <q-card class="ow-card">
+      <div class="grid q-pa-md q-gutter-sm">
+        <q-btn color="primary" style="width: 70%">
+          <div class="ellipsis">
+            <RouterLink class="ow-router-link" to="/">Voltar</RouterLink>
+          </div>
+        </q-btn>
+      </div>
       <div
         class="grid q-pa-md q-gutter-sm"
         v-for="station in stattions.name"
@@ -9,18 +16,10 @@
         <q-btn
           color="primary"
           style="width: 70%"
-          @click="sendTerminal(station)"
+          :to="{ name: 'terminal', params: { terminal: station } }"
         >
           <div class="ellipsis">
             {{ station }}
-          </div>
-        </q-btn>
-      </div>
-
-      <div class="grid q-pa-md q-gutter-sm">
-        <q-btn color="primary" style="width: 70%">
-          <div class="ellipsis">
-            <RouterLink class="ow-router-link" to="/">Voltar</RouterLink>
           </div>
         </q-btn>
       </div>
@@ -38,9 +37,4 @@ onMounted(async () => {
   const { data } = await api.get("/terminais");
   stattions.value = data;
 });
-
-const sendTerminal = async (terminal) => {
-  const { routes } = await api.get("/routes/" + terminal);
-  console.log(routes);
-};
 </script>

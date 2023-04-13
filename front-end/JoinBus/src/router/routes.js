@@ -3,36 +3,27 @@ const routes = [
     path: "/",
     component: () => import("layouts/MainLayout.vue"),
     children: [
-      { path: "/", component: () => import("src/pages/IndexPage.vue") },
-    ],
-  },
-  {
-    path: "/terminais",
-    component: () => import("layouts/MainLayout.vue"),
-    children: [
+      { path: "", component: () => import("src/pages/IndexPage.vue") },
       {
-        path: "/terminais",
-        component: () => import("src/pages/TerminaisPage.vue"),
-      },
-    ],
-  },
-  {
-    path: "/favoritos",
-    component: () => import("layouts/MainLayout.vue"),
-    children: [
-      {
-        path: "/favoritos",
+        path: "favoritos",
         component: () => import("src/pages/FavoritosPage.vue"),
       },
-    ],
-  },
-  {
-    path: "/linhas",
-    component: () => import("layouts/MainLayout.vue"),
-    children: [
       {
-        path: "/linhas",
+        name: "terminais",
+        path: "terminais",
+        component: () => import("src/pages/TerminaisPage.vue"),
+      },
+      {
+        name: "terminal",
+        path: "terminal/:terminal/linhas",
         component: () => import("src/pages/LinhasPage.vue"),
+        props: true,
+      },
+      {
+        name: "linha",
+        path: "terminal/:terminal/linha/:linha/horarios",
+        component: () => import("src/pages/HoursPage.vue"),
+        props: true,
       },
     ],
   },
