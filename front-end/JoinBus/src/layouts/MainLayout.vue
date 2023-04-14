@@ -8,7 +8,7 @@
 
     <q-footer elevated class="grid-footer">
       <q-toolbar>
-        <q-toolbar-title>OWTech Systems</q-toolbar-title>
+        <q-toolbar-title>OWTech Systems &copy;</q-toolbar-title>
       </q-toolbar>
     </q-footer>
 

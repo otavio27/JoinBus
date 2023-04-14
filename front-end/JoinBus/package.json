@@ -25,6 +25,7 @@
     "capacitor": "^0.5.5",
     "core-js": "^3.6.5",
     "cors": "^2.8.5",
+    "node-polyfill-webpack-plugin": "^2.0.1",
     "pinia": "^2.0.11",
     "quasar": "^2.6.0",
     "vue": "^3.0.0",

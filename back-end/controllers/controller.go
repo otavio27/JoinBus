@@ -58,11 +58,12 @@ func (cto Controllers) GetLocation(c *fiber.Ctx) error {
 			hours = append(hours, HRS[0]+":"+HRS[1])
 		}
 		linhas = append(linhas, map[string]any{
-			"NearPoint": stopName[0],
-			"ID":        Id,
-			"Name":      Name,
-			"Direction": Router,
-			"Hours":     strings.Join(hours, " "),
+			"station":   stopName[0],
+			"id":        Id,
+			"name":      Name,
+			"direction": Router,
+			"hours":     hours,
+			"weekday":   cto.getServiceTypeForToday(),
 		})
 	}
 
