@@ -16,14 +16,11 @@
         <div class="grid q-pa-md q-gutter-sm">
           <q-btn color="primary" style="width: 70%">
             <div class="ellipsis">
-              <RouterLink class="ow-router-link" to="/">Localização</RouterLink>
+              <RouterLink class="ow-router-link" :to="{ name: 'locale' }"
+                >Localização</RouterLink
+              >
             </div>
           </q-btn>
-        </div>
-
-        <div class="grid q-pa-md q-gutter-sm">
-          <p>{{ coords.latitude }}</p>
-          <p>{{ coords.longitude }}</p>
         </div>
 
         <form
@@ -53,36 +50,23 @@
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
-import { useGeolocation } from "@vueuse/core";
+import { useApi } from "src/composable/api";
+import { ref } from "vue";
 
 const props = defineProps({
   name: {
     type: String,
-    default: "Index",
+    default: "index",
   },
+  terminal: String,
+  linhas: String,
 });
 
-const { coords, locatedAt } = useGeolocation();
-const now = new Date().getTime();
-function doYourMagicAfterTheCoordsBeReady() {}
-
-const unwatch = watch(
-  () => coords.value,
-  () => {
-    console.log({ coords: coords.value, locatedAt: locatedAt.value, now });
-    if (locatedAt.value > now) {
-      doYourMagicAfterTheCoordsBeReady();
-      unwatch();
-    }
-  },
-  { deep: true, immediate: true }
-);
-
+const api = useApi();
 const text = ref("");
 
-const sendSubmit = () => {
-  console.log(text.value);
+const sendSubmit = async () => {
+  const { data } = await api.get(`/search/${text.value}`);
   onReset();
 };
 

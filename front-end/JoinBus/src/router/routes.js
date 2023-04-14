@@ -16,7 +16,19 @@ const routes = [
         props: true,
       },
       {
+        name: "locale",
+        path: "locale",
+        component: () => import("src/pages/LocalePage.vue"),
+        props: true,
+      },
+      {
         name: "linha",
+        path: "terminal/:terminal/linha/:linha/horarios",
+        component: () => import("src/pages/HoursPage.vue"),
+        props: true,
+      },
+      {
+        name: "search",
         path: "terminal/:terminal/linha/:linha/horarios",
         component: () => import("src/pages/HoursPage.vue"),
         props: true,

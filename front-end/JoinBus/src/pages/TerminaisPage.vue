@@ -39,7 +39,7 @@ const api = useApi();
 onMounted(async () => {
   $q.loading.show({
     spinnerColor: "primary",
-    message: "Buscando os terminais, aguarde...",
+    message: "Carregando...",
     messageColor: "amber",
   });
   const { data } = await api.get("/terminais");
