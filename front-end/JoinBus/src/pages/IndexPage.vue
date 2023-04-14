@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-sm">
     <q-page class="flex flex-center">
-      <img src="https://onibus.info/img/icon/favicon-196.png" />
+      <img src="../assets/favicon-196.png" />
       <q-card class="q-ma-md full-width" style="max-width: 100%">
         <div class="grid q-pa-md q-gutter-sm">
           <q-btn color="primary" style="width: 70%">
@@ -14,8 +14,10 @@
         </div>
 
         <div class="grid q-pa-md q-gutter-sm">
-          <q-btn color="primary" style="width: 70%" @click="sendGeoLocation">
-            <div class="ellipsis">Localização</div>
+          <q-btn color="primary" style="width: 70%">
+            <div class="ellipsis">
+              <RouterLink class="ow-router-link" to="/">Localização</RouterLink>
+            </div>
           </q-btn>
         </div>
 
@@ -46,7 +48,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { useGeolocation } from "@vueuse/core";
 
 const props = defineProps({
@@ -56,12 +58,23 @@ const props = defineProps({
   },
 });
 
-const text = ref("");
+const { coords, locatedAt } = useGeolocation();
+const now = new Date().getTime();
+function doYourMagicAfterTheCoordsBeReady() {}
 
-const sendGeoLocation = () => {
-  const { coords } = useGeolocation();
-  console.log(coords.latitude, " ", coords.longitude);
-};
+const unwatch = watch(
+  () => coords.value,
+  () => {
+    console.log({ coords: coords.value, locatedAt: locatedAt.value, now });
+    if (locatedAt.value > now) {
+      doYourMagicAfterTheCoordsBeReady();
+      unwatch();
+    }
+  },
+  { deep: true, immediate: true }
+);
+
+const text = ref("");
 
 const sendSubmit = () => {
   console.log(text.value);

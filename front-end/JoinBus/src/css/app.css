@@ -11,7 +11,7 @@ body.body--dark {
 }
 
 body.body--light {
-  --q-primary: #4f00b3;
+  --q-primary: rgb(203, 115, 1);
   --q-secondary: #26a69a;
   --q-accent: #9c27b0;
   --q-positive: #21ba45;

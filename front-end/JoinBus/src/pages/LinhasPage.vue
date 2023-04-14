@@ -36,6 +36,7 @@
 
 <script setup>
 import { useApi } from "src/composable/api";
+import { useQuasar } from "quasar";
 import { onMounted, ref } from "vue";
 
 let linhas = ref([]);
@@ -43,8 +44,15 @@ const props = defineProps({
   terminal: String,
 });
 
+const $q = useQuasar();
+
 const api = useApi();
 onMounted(async () => {
+  $q.loading.show({
+    spinnerColor: "primary",
+    message: "Buscando as linhas, aguarde...",
+    messageColor: "amber",
+  });
   const { data } = await api.get("/routes/" + props.terminal);
   const res = data?.[0];
   const _linhas = res.id?.map((id, index) => ({
@@ -53,6 +61,7 @@ onMounted(async () => {
   }));
 
   linhas.value = _linhas;
+  $q.loading.hide();
 });
 </script>
 

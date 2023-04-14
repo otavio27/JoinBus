@@ -19,21 +19,16 @@
           <span class="text-h6 text-center">{{ hour.id }} {{ hour.name }}</span>
         </q-card-section>
         <q-card-section class="q-gutter-sm">
-          <q-input filled readonly label="Estação" v-model="hour.station" />
-          <q-input filled readonly label="Direceção" v-model="hour.direction" />
-          <q-input
-            filled
-            readonly
-            label="Dia da Semana"
-            v-model="hour.weekday"
-          />
+          <q-input filled readonly v-model="hour.station" />
+          <q-input filled readonly v-model="hour.direction" />
+          <q-input filled readonly v-model="hour.weekday" />
         </q-card-section>
         <q-card-section class="q-gutter-sm text-center">
           <q-chip
             outline
             v-for="val in hour.hours"
             :key="val"
-            color="primary"
+            color="dark"
             icon="schedule"
             >{{ val }}</q-chip
           >
@@ -60,8 +55,8 @@ const api = useApi();
 onMounted(async () => {
   $q.loading.show({
     spinnerColor: "primary",
-    message: "Buscando horários, aguarde...",
-    messageColor: "info",
+    message: "Buscando os horários, aguarde...",
+    messageColor: "amber",
   });
   const { data } = await api.get("/linhas/" + props.linha);
   hours.value = data;
