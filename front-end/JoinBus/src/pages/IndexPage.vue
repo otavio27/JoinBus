@@ -21,6 +21,11 @@
           </q-btn>
         </div>
 
+        <div class="grid q-pa-md q-gutter-sm">
+          <p>{{ coords.latitude }}</p>
+          <p>{{ coords.longitude }}</p>
+        </div>
+
         <form
           @submit.prevent="sendSubmit"
           class="q-pa-md"
