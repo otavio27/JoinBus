@@ -225,11 +225,13 @@ func (cto Controllers) getNameLines(ctx context.Context, text string) string {
 func (cto Controllers) GetlinesRegexp(c *fiber.Ctx) error {
 	text := c.Params("text")
 
+	path, _ := url.PathUnescape(text)
+
 	var res string
-	if len(text) > 1 {
-		res = cases.Title(language.Portuguese).String(text)
+	if len(path) > 1 {
+		res = cases.Title(language.Portuguese).String(path)
 	} else {
-		res = cases.Upper(language.Portuguese).String(text)
+		res = cases.Upper(language.Portuguese).String(path)
 	}
 
 	body, err := cto.ons.GetjsonTerminals(c.Context())
@@ -243,20 +245,26 @@ func (cto Controllers) GetlinesRegexp(c *fiber.Ctx) error {
 		return fmt.Errorf("Unmarshal error, not found files %s", err)
 	}
 
+	keys := make(map[string]bool)
 	var linhas []map[string]any
+
 	for _, station := range Stations {
 		for _, route := range station.Routes {
-			matched, _ := regexp.MatchString(`^`+res+`.*`, route.RouteLongName)
-			if matched {
-				linhas = append(linhas, map[string]any{
-					"name": route.RouteLongName,
-					"id":   route.RouteID,
-				})
+			route_name, _ := regexp.MatchString(`^`+path+`.*`, route.RouteLongName)
+			route_id, _ := regexp.MatchString(`^`+res+`.*`, route.RouteID)
+			if route_name || route_id {
+				if _, value := keys[route.RouteID]; !value {
+					keys[route.RouteID] = true
+					linhas = append(linhas, map[string]any{
+						"name": route.RouteLongName,
+						"id":   route.RouteID,
+					})
+				}
 			}
 		}
 	}
 
-	if len(text) == 0 {
+	if len(linhas) == 0 {
 		return c.JSON(map[string]any{"Warning": "Linha não encontrada!"})
 	}
 	return c.JSON(linhas)

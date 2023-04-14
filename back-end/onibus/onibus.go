@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
+	"os"
 
 	"github.com/otavio27/JoinBus-APP/back-end/structs"
 	"github.com/vingarcia/krest"
@@ -28,7 +29,7 @@ func New(http krest.Provider, ctx context.Context) *Adapter {
 
 // GetLocation busca as linhas mais proximas da localização passada pelo app
 func (a Adapter) GetGeoLocation(latitude string, longitude string) ([]byte, []string, error) {
-	url := "https://onibus.info/api/stopsnear?lat=" + latitude + "&lng=" + longitude
+	url := os.Getenv("Stopsnear") + latitude + "&lng=" + longitude
 	resp, err := a.http.Get(a.ctx, url, krest.RequestData{
 		Headers: map[string]string{
 			"Referer":    "https://onibus.info/mapa/",
@@ -78,7 +79,7 @@ func (a Adapter) GetStopTripList(ctx context.Context, stop []string, stopName []
 	}
 
 	for _, std := range stop[:2] {
-		url := "https://onibus.info/api/stoptrips/" + std
+		url := os.Getenv("Stoptripslist") + std
 
 		resp, err := a.http.Get(ctx, url, krest.RequestData{
 			Headers: map[string]string{
@@ -115,7 +116,7 @@ func (a Adapter) GetStopTripList(ctx context.Context, stop []string, stopName []
 
 // GetjsonLines função que tem responssabilidade de busacar os horários da linha quando passada por nome ou ID
 func (a Adapter) GetjsonLines(ctx context.Context, id string) ([]byte, error) {
-	url := "https://onibus.info/api/timetable/" + id
+	url := os.Getenv("Timetable") + id
 
 	resp, err := a.http.Get(ctx, url, krest.RequestData{
 		Headers: map[string]string{
@@ -146,7 +147,7 @@ func (a Adapter) GetjsonLines(ctx context.Context, id string) ([]byte, error) {
 
 // GetjsonTerminals busca todas as linhas de cada terminal
 func (a Adapter) GetjsonTerminals(ctx context.Context) ([]byte, error) {
-	url := "https://onibus.info/api/routes/group"
+	url := os.Getenv("Group")
 
 	resp, err := a.http.Get(ctx, url, krest.RequestData{
 		Headers: map[string]string{
