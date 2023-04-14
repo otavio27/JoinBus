@@ -28,13 +28,22 @@
 </template>
 <script setup>
 import { useApi } from "src/composable/api";
+import { useQuasar } from "quasar";
 import { onMounted, ref } from "vue";
+
+const $q = useQuasar();
 
 let stattions = ref([]);
 
 const api = useApi();
 onMounted(async () => {
+  $q.loading.show({
+    spinnerColor: "primary",
+    message: "Buscando os terminais, aguarde...",
+    messageColor: "amber",
+  });
   const { data } = await api.get("/terminais");
   stattions.value = data;
+  $q.loading.hide();
 });
 </script>
