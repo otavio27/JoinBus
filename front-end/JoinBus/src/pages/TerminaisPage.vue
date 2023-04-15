@@ -6,6 +6,7 @@
           <q-btn color="primary" style="width: 70%">
             <RouterLink class="ow-router-link" to="/">Voltar</RouterLink>
           </q-btn>
+          <q-separator></q-separator>
         </div>
         <div
           class="grid q-pa-md q-gutter-sm"

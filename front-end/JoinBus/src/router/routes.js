@@ -29,8 +29,8 @@ const routes = [
       },
       {
         name: "search",
-        path: "terminal/:terminal/linha/:linha/horarios",
-        component: () => import("src/pages/HoursPage.vue"),
+        path: "search/:texto",
+        component: () => import("src/pages/SearchPage.vue"),
         props: true,
       },
     ],

@@ -2,9 +2,9 @@
   <div class="q-pa-sm">
     <q-page class="flex flex-center">
       <img src="../assets/joinbus.png" style="max-width: 50%" />
-      <q-card class="q-ma-md full-width" style="max-width: 100%">
+      <q-card class="q-ma-md full-width" style="max-width: 95%">
         <div class="grid q-pa-md q-gutter-sm">
-          <q-btn color="primary" style="width: 70%">
+          <q-btn color="primary" style="margin-top: 15%; width: 70%">
             <div class="ellipsis">
               <RouterLink class="ow-router-link" :to="{ name: 'terminais' }"
                 >Terminais</RouterLink
@@ -38,9 +38,10 @@
 
           <div class="row justify-end">
             <q-btn type="submit" label="Buscar" class="q-mt-md" color="primary">
-              <template v-slot:loading>
-                <q-spinner-facebook />
-              </template>
+              <RouterLink
+                class="ow-router-link"
+                :to="{ name: 'search', params: { texto: 'Ulysses' } }"
+              ></RouterLink>
             </q-btn>
           </div>
         </form>
@@ -50,7 +51,6 @@
 </template>
 
 <script setup>
-import { useApi } from "src/composable/api";
 import { ref } from "vue";
 
 const props = defineProps({
@@ -58,16 +58,12 @@ const props = defineProps({
     type: String,
     default: "index",
   },
-  terminal: String,
-  linhas: String,
 });
 
-const api = useApi();
 const text = ref("");
 
 const sendSubmit = async () => {
-  const { data } = await api.get(`/search/${text.value}`);
-  onReset();
+  setTimeout(onReset(), 3000);
 };
 
 const onReset = () => {
