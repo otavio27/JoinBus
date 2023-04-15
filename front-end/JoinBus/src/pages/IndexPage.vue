@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-sm">
     <q-page class="flex flex-center">
-      <img src="../assets/favicon-196.png" />
+      <img src="../assets/joinbus.png" style="max-width: 50%" />
       <q-card class="q-ma-md full-width" style="max-width: 100%">
         <div class="grid q-pa-md q-gutter-sm">
           <q-btn color="primary" style="width: 70%">
