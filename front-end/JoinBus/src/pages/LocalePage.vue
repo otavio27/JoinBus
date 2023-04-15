@@ -50,12 +50,12 @@ const geolocationStore = useGeolocationStore();
 const { coords, isReady } = storeToRefs(geolocationStore);
 
 onMounted(async () => {
-  await isReady.value;
   $q.loading.show({
     spinnerColor: "primary",
     message: "Carregando...",
     messageColor: "amber",
   });
+  await isReady.value;
   const { data } = await api.get(
     `/geolocation/${coords.value.latitude}/${coords.value.longitude}`
   );

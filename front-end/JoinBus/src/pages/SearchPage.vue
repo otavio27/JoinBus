@@ -42,7 +42,13 @@ import { onMounted, ref } from "vue";
 let linhas = ref([]);
 const props = defineProps({
   index: String,
+  texto: {
+    type: String,
+    required: true,
+  },
 });
+
+console.log("Search text received: ", props.texto);
 
 const $q = useQuasar();
 
@@ -53,7 +59,7 @@ onMounted(async () => {
     message: "Carregando...",
     messageColor: "amber",
   });
-  const { data } = await api.get(`/search/${props.index}`);
+  const { data } = await api.get(`/search/${props.texto}`);
   linhas.value = data;
   $q.loading.hide();
 });
