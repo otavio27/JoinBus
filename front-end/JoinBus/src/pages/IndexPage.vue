@@ -57,7 +57,7 @@
           <q-input
             filled
             color="teal"
-            hint="Digite o nome da linha, ou o número."
+            hint="Digite o nome da linha, ou número."
             v-model="filter"
           />
 
