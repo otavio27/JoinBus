@@ -42,7 +42,7 @@ func (a Adapter) GetGeoLocation(latitude string, longitude string) ([]byte, []st
 		if resp.StatusCode == 404 {
 			return nil, nil, fmt.Errorf("onibus.info/api/stopsnear?lat= was not found! %s", err)
 		}
-		return nil, nil, fmt.Errorf("unexpected error when fetching example.com: %s", err)
+		return nil, nil, fmt.Errorf("unexpected error when fetching geolocation: %s", err)
 	}
 
 	var reader io.ReadCloser
@@ -92,7 +92,7 @@ func (a Adapter) GetStopTripList(ctx context.Context, stop []string, stopName []
 			if resp.StatusCode == 404 {
 				return nil, nil, fmt.Errorf("onibus.info/api/stopsnear?lat= was not found! %s", err)
 			}
-			return nil, nil, fmt.Errorf("unexpected error when fetching example.com: %s", err)
+			return nil, nil, fmt.Errorf("unexpected error when fetching stop list: %s", err)
 		}
 
 		var reader io.ReadCloser
@@ -129,7 +129,7 @@ func (a Adapter) GetjsonLines(ctx context.Context, id string) ([]byte, error) {
 		if resp.StatusCode == 404 {
 			return nil, fmt.Errorf("onibus.info/api/timetable/ was not found! %s", err)
 		}
-		return nil, fmt.Errorf("unexpected error when fetching example.com: %s", err)
+		return nil, fmt.Errorf("unexpected error when fetching lines: %s", err)
 	}
 
 	var reader io.ReadCloser
@@ -160,7 +160,7 @@ func (a Adapter) GetjsonTerminals(ctx context.Context) ([]byte, error) {
 		if resp.StatusCode == 404 {
 			return nil, fmt.Errorf("onibus.info/api/routes/group/ was not found! %s", err)
 		}
-		return nil, fmt.Errorf("unexpected error when fetching example.com: %s", err)
+		return nil, fmt.Errorf("unexpected error when fetching terminals: %s", err)
 	}
 
 	var reader io.ReadCloser

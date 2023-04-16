@@ -2,9 +2,34 @@
   <div class="q-pa-sm">
     <q-page class="flex flex-center">
       <img src="../assets/joinbus.png" style="max-width: 50%" />
-      <q-card class="q-ma-md full-width" style="max-width: 95%">
+
+      <q-card
+        class="q-ma-md full-width"
+        style="max-width: 95%"
+        v-if="linhas.length > 0"
+      >
+        <q-card-section class="row q-col-gutter-y-md">
+          <div class="col col-12" v-for="line in linhas" :key="line.id">
+            <q-btn
+              class="full-width"
+              color="primary"
+              style="width: 70%"
+              :to="{
+                name: 'linha',
+                params: { linha: line.id },
+              }"
+            >
+              <div class="ellipsis">
+                {{ line.name }}
+              </div>
+            </q-btn>
+          </div>
+        </q-card-section>
+      </q-card>
+
+      <q-card class="q-ma-md full-width" style="max-width: 95%" v-else>
         <div class="grid q-pa-md q-gutter-sm">
-          <q-btn color="primary" style="margin-top: 15%; width: 70%">
+          <q-btn color="primary" style="margin-top: 10%; width: 70%">
             <div class="ellipsis">
               <RouterLink class="ow-router-link" :to="{ name: 'terminais' }"
                 >Terminais</RouterLink
@@ -24,7 +49,7 @@
         </div>
 
         <form
-          @submit.prevent="sendSubmit"
+          @submit.prevent="onSearch"
           class="q-pa-md"
           style="margin-top: 15%"
         >
@@ -33,15 +58,11 @@
             filled
             color="teal"
             hint="Digite o nome da linha, ou o número."
-            v-model="text"
+            v-model="filter"
           />
 
           <div class="row justify-end">
             <q-btn type="submit" label="Buscar" class="q-mt-md" color="primary">
-              <RouterLink
-                class="ow-router-link"
-                :to="{ name: 'search', params: { texto: 'Ulysses' } }"
-              ></RouterLink>
             </q-btn>
           </div>
         </form>
@@ -51,23 +72,61 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
+import { useRoute } from "vue-router";
+import { useApi } from "src/composable/api";
+
+const router = useRouter();
+const route = useRoute();
+const api = useApi();
+const initial = route.query.filter || "";
 
 const props = defineProps({
   name: {
     type: String,
     default: "index",
   },
+  linhas: String,
 });
 
-const text = ref("");
+const linhas = ref([]);
+const filter = ref(initial);
 
-const sendSubmit = async () => {
-  setTimeout(onReset(), 3000);
-};
+function updateRoute() {
+  const { name, query: curQuery, params } = route;
+  const query = {
+    ...curQuery,
+    filter: filter.value,
+  };
+  router.replace({
+    name,
+    query,
+    params,
+  });
+}
+
+async function doSearch() {
+  if (filter.value) {
+    const { data } = await api.get("search/" + filter.value);
+    linhas.value = data;
+  } else {
+    linhas.value = [];
+  }
+  onReset();
+}
+
+async function onSearch() {
+  await doSearch();
+  updateRoute();
+}
+
+onMounted(async () => {
+  await doSearch();
+});
 
 const onReset = () => {
-  text.value = null;
+  filter.value = null;
 };
 </script>
 

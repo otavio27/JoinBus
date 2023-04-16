@@ -3,7 +3,11 @@ const routes = [
     path: "/",
     component: () => import("layouts/MainLayout.vue"),
     children: [
-      { path: "", component: () => import("src/pages/IndexPage.vue") },
+      {
+        name: "index",
+        path: "",
+        component: () => import("src/pages/IndexPage.vue"),
+      },
       {
         name: "terminais",
         path: "terminais",
@@ -23,14 +27,8 @@ const routes = [
       },
       {
         name: "linha",
-        path: "terminal/:terminal/linha/:linha/horarios",
+        path: "terminal/:terminal?/linha/:linha/horarios",
         component: () => import("src/pages/HoursPage.vue"),
-        props: true,
-      },
-      {
-        name: "search",
-        path: "search/:texto",
-        component: () => import("src/pages/SearchPage.vue"),
         props: true,
       },
     ],
