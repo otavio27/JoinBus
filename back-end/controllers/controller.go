@@ -228,7 +228,7 @@ func (cto Controllers) GetlinesRegexp(c *fiber.Ctx) error {
 	path, _ := url.PathUnescape(text)
 
 	if len(path) >= 1 {
-		path = cases.Title(language.Portuguese).String(path)
+		path = cases.Lower(language.Portuguese).String(path)
 	}
 
 	body, err := cto.ons.GetjsonTerminals(c.Context())
@@ -247,7 +247,8 @@ func (cto Controllers) GetlinesRegexp(c *fiber.Ctx) error {
 
 	for _, station := range Stations {
 		for _, route := range station.Routes {
-			route_name, _ := regexp.MatchString(`^`+path+`.*`, route.RouteLongName)
+			routeName := cases.Lower(language.Portuguese).String(route.RouteLongName)
+			route_name, _ := regexp.MatchString(`^`+path+`.*`, routeName)
 			route_id, _ := regexp.MatchString(`^`+path+`.*`, route.RouteID)
 			if route_name || route_id {
 				if _, value := keys[route.RouteID]; !value {
