@@ -68,7 +68,7 @@ func (cto Controllers) GetLocation(c *fiber.Ctx) error {
 	}
 
 	if len(linhas) == 0 {
-		return c.JSON(map[string]any{"Warning": "Não há linhas que rodam nesta localização, ou nas próximas horas."})
+		return c.JSON(map[string]any{"warning": "Não há linhas que rodam nesta localização, ou nas próximas horas."})
 	}
 
 	return c.JSON(linhas)
@@ -263,7 +263,7 @@ func (cto Controllers) GetlinesRegexp(c *fiber.Ctx) error {
 	}
 
 	if len(linhas) == 0 {
-		return c.JSON(map[string]any{"Warning": "Linha não encontrada!"})
+		return c.JSON(map[string]any{"warning": "Linha não encontrada!"})
 	}
 	return c.JSON(linhas)
 }
