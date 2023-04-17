@@ -3,7 +3,6 @@ module github.com/otavio27/JoinBus-APP/back-end
 go 1.20
 
 require (
-	github.com/boltdb/bolt v1.3.1
 	github.com/gofiber/fiber/v2 v2.43.0
 	github.com/vingarcia/ddd-go-template/v2-domain-adapters-and-helpers v0.0.0-20221128135731-9141cf0804c5
 	github.com/vingarcia/krest v0.0.4

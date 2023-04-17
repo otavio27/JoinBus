@@ -1,8 +1,0 @@
-{
-  "Group": "https://onibus.info/api/routes/group",
-  "Timetable": "https://onibus.info/api/timetable/",
-  "Routes": "https://onibus.info/api/routes/",
-  "Stoptripslist": "https://onibus.info/api/stoptrips/",
-  "Stopsnear": "https://onibus.info/api/stopsnear?lat=",
-  "Database": "postgres://postgres:Anyebia_1981@192.168.0.135:5432/owtech?sslmode=disable"
-}
