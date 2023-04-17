@@ -58,6 +58,7 @@ func (cto Controllers) GetLocation(c *fiber.Ctx) error {
 			hours = append(hours, HRS[0]+":"+HRS[1])
 		}
 		linhas = append(linhas, map[string]any{
+			"warning":   "",
 			"station":   stopName[0],
 			"id":        Id,
 			"name":      Name,
@@ -68,7 +69,15 @@ func (cto Controllers) GetLocation(c *fiber.Ctx) error {
 	}
 
 	if len(linhas) == 0 {
-		return c.JSON(map[string]any{"warning": "Não há linhas que rodam nesta localização, ou nas próximas horas."})
+		return c.JSON(map[string]any{
+			"warning":   "Não há linhas que rodam nesta localização, ou nas próximas horas.",
+			"station":   "",
+			"id":        "",
+			"name":      "",
+			"direction": "",
+			"hours":     []string{},
+			"weekday":   "",
+		})
 	}
 
 	return c.JSON(linhas)
@@ -115,6 +124,7 @@ func (cto Controllers) GetLines(c *fiber.Ctx) error {
 			}
 
 			linha = append(linha, map[string]any{
+				"warning":   "",
 				"weekday":   cto.getServiceTypeForToday(),
 				"id":        id,
 				"name":      cto.getNameLines(c.Context(), id),
@@ -123,12 +133,26 @@ func (cto Controllers) GetLines(c *fiber.Ctx) error {
 				"hours":     hours,
 			})
 		}
+
+	}
+
+	if len(linha) == 0 {
+		linha = append(linha, map[string]any{
+			"warning":   "Linha solicitada não existe!",
+			"weekday":   "",
+			"id":        "",
+			"name":      "",
+			"station":   "",
+			"direction": "",
+			"hours":     []string{},
+		})
 	}
 
 	if operatesToday {
 		return c.JSON(linha)
 	}
-	return c.JSON(map[string]any{"warning": "Linha sem operação nesta data!"})
+
+	return c.JSON(linha)
 }
 
 // GetTerminals é uma função que retorna informações sobre terminais em um objeto JSON.
@@ -254,8 +278,9 @@ func (cto Controllers) GetlinesRegexp(c *fiber.Ctx) error {
 				if _, value := keys[route.RouteID]; !value {
 					keys[route.RouteID] = true
 					linhas = append(linhas, map[string]any{
-						"name": route.RouteLongName,
-						"id":   route.RouteID,
+						"warning": "",
+						"name":    route.RouteLongName,
+						"id":      route.RouteID,
 					})
 				}
 			}
@@ -263,7 +288,11 @@ func (cto Controllers) GetlinesRegexp(c *fiber.Ctx) error {
 	}
 
 	if len(linhas) == 0 {
-		return c.JSON(map[string]any{"warning": "Linha não encontrada!"})
+		linhas = append(linhas, map[string]any{
+			"warning": "Linha solicitada não existe!",
+			"id":      "",
+			"name":    "",
+		})
 	}
 	return c.JSON(linhas)
 }
