@@ -40,7 +40,7 @@ func (cto Controllers) GetLocation(c *fiber.Ctx) error {
 		return err
 	}
 
-	var stoplists []structs.MyStopList
+	var stoplists []structs.StopList
 	if err := json.Unmarshal(body, &stoplists); err != nil {
 		return fmt.Errorf("fail to parse body as JSON: " + err.Error())
 	}
@@ -162,7 +162,7 @@ func (cto Controllers) GetTerminals(c *fiber.Ctx) error {
 		return err
 	}
 
-	var Stations []structs.MyStations
+	var Stations []structs.Stations
 	err = json.Unmarshal(body, &Stations)
 	if err != nil {
 		return fmt.Errorf("Unmarshal error, not found files %s", err)
@@ -195,7 +195,7 @@ func (cto Controllers) GetRoutes(c *fiber.Ctx) error {
 		return err
 	}
 
-	var Stations []structs.MyStations
+	var Stations []structs.Stations
 	err = json.Unmarshal(body, &Stations)
 	if err != nil {
 		return fmt.Errorf("Unmarshal error, not found files %s", err)
@@ -229,7 +229,7 @@ func (cto Controllers) getNameLines(ctx context.Context, text string) string {
 		return err.Error()
 	}
 
-	var Stations []structs.MyStations
+	var Stations []structs.Stations
 	err = json.Unmarshal(body, &Stations)
 	if err != nil {
 		return err.Error()
@@ -260,7 +260,7 @@ func (cto Controllers) GetlinesRegexp(c *fiber.Ctx) error {
 		return err
 	}
 
-	var Stations []structs.MyStations
+	var Stations []structs.Stations
 	err = json.Unmarshal(body, &Stations)
 	if err != nil {
 		return fmt.Errorf("Unmarshal error, not found files %s", err)
