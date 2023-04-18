@@ -10,6 +10,7 @@ import (
 	"os"
 
 	"github.com/otavio27/JoinBus-APP/back-end/structs"
+	"github.com/vingarcia/ddd-go-template/v2-domain-adapters-and-helpers/domain"
 	"github.com/vingarcia/krest"
 )
 
@@ -115,7 +116,7 @@ func (a Adapter) GetStopTripList(ctx context.Context, stop []string, stopName []
 }
 
 // GetjsonLines função que tem responssabilidade de busacar os horários da linha quando passada por nome ou ID
-func (a Adapter) GetjsonLines(ctx context.Context, id string) ([]byte, error) {
+func (a Adapter) GetjsonLines(ctx context.Context, id string) ([]structs.LineStruct, error) {
 	url := os.Getenv("Timetable") + id
 
 	resp, err := a.http.Get(ctx, url, krest.RequestData{
@@ -125,24 +126,49 @@ func (a Adapter) GetjsonLines(ctx context.Context, id string) ([]byte, error) {
 			"Host":       "onibus.info",
 		},
 	})
+
 	if err != nil {
 		if resp.StatusCode == 404 {
-			return nil, fmt.Errorf("onibus.info/api/timetable/ was not found! %s", err)
+			return nil, domain.NotFoundErr("line not found", map[string]any{
+				"line_id": id,
+			})
 		}
-		return nil, fmt.Errorf("unexpected error when fetching lines: %s", err)
+		return nil, domain.InternalErr("unexpected error when fetching line", map[string]any{
+			"error":   err.Error(),
+			"line_id": id,
+		})
 	}
 
 	var reader io.ReadCloser
 	switch resp.Header.Get("Content-Encoding") {
 	case "gzip":
-		reader, _ = gzip.NewReader(resp)
+		reader, err = gzip.NewReader(resp)
+		if err != nil {
+			return nil, domain.InternalErr("unexpected error unzipping line from external api", map[string]any{
+				"error":   err.Error(),
+				"line_id": id,
+			})
+		}
 		defer reader.Close()
 	default:
 		reader = resp
 	}
 
-	hours, _ := ioutil.ReadAll(reader)
-	return hours, nil
+	hours, err := ioutil.ReadAll(reader)
+	if err != nil {
+		return nil, domain.InternalErr("unexpected error reading line from external api", map[string]any{
+			"error":   err.Error(),
+			"line_id": id,
+		})
+	}
+
+	var lines []structs.LineStruct
+	err = json.Unmarshal(hours, &lines)
+	if err != nil {
+		return nil, fmt.Errorf("Unmarshal error, not found files %s", err)
+	}
+
+	return lines, nil
 }
 
 // GetjsonTerminals busca todas as linhas de cada terminal

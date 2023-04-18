@@ -86,15 +86,9 @@ func (cto Controllers) GetLocation(c *fiber.Ctx) error {
 func (cto Controllers) GetLines(c *fiber.Ctx) error {
 	var id = c.Params("id")
 
-	body, err := cto.ons.GetjsonLines(c.Context(), id)
+	lines, err := cto.ons.GetjsonLines(c.Context(), id)
 	if err != nil {
 		return err
-	}
-
-	var lines []structs.LineStruct
-	err = json.Unmarshal(body, &lines)
-	if err != nil {
-		return fmt.Errorf("Unmarshal error, not found files %s", err)
 	}
 
 	var direction string
