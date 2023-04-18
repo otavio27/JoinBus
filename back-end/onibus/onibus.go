@@ -56,7 +56,7 @@ func (a Adapter) GetGeoLocation(latitude string, longitude string) ([]byte, []st
 
 	location, _ := ioutil.ReadAll(reader)
 
-	var local []structs.MyLocation
+	var local []structs.Location
 	if err := json.Unmarshal(location, &local); err != nil {
 		return nil, nil, fmt.Errorf("fail to parse body as JSON: " + err.Error())
 	}

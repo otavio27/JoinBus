@@ -28,14 +28,14 @@ type stopdata struct {
 	ServiceData  []servicedata `json:"service_data"`
 }
 
-type MyStations struct {
+type Stations struct {
 	StationName   string   `json:"station_name"`
 	Routes        []routes `json:"routes"`
 	RouteID       string   `json:"route_id"`
 	RouteLongName string   `json:"route_long_name"`
 }
 
-type MyLocation struct {
+type Location struct {
 	StopID       string `json:"stop_id"`
 	StopName     string `json:"stop_name"`
 	StopLat      string `json:"stop_lat"`
@@ -44,7 +44,7 @@ type MyLocation struct {
 	Distance     int    `json:"distance"`
 }
 
-type MyStopList struct {
+type StopList struct {
 	ShapeID      string `json:"shape_id"`
 	StopSequence int    `json:"stop_sequence"`
 	TripHeadsign string `json:"trip_headsign"`
