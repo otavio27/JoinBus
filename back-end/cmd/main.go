@@ -7,7 +7,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
-	"github.com/otavio27/JoinBus-APP/back-end/controllers"
+	"github.com/otavio27/JoinBus-APP/back-end/cmd/controllers"
 	"github.com/otavio27/JoinBus-APP/back-end/onibus"
 	"github.com/vingarcia/krest"
 )
