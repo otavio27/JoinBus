@@ -116,7 +116,7 @@ func (a Adapter) GetStopTripList(ctx context.Context, stop []string, stopName []
 }
 
 // GetjsonLines função que tem responssabilidade de busacar os horários da linha quando passada por nome ou ID
-func (a Adapter) GetjsonLines(ctx context.Context, id string) ([]structs.LineStruct, error) {
+func (a Adapter) GetItineraries(ctx context.Context, id string) ([]structs.Itinerary, error) {
 	url := os.Getenv("Timetable") + id
 
 	resp, err := a.http.Get(ctx, url, krest.RequestData{
@@ -129,11 +129,11 @@ func (a Adapter) GetjsonLines(ctx context.Context, id string) ([]structs.LineStr
 
 	if err != nil {
 		if resp.StatusCode == 404 {
-			return nil, domain.NotFoundErr("line not found", map[string]any{
+			return nil, domain.NotFoundErr("itineraries not found", map[string]any{
 				"line_id": id,
 			})
 		}
-		return nil, domain.InternalErr("unexpected error when fetching line", map[string]any{
+		return nil, domain.InternalErr("unexpected error when fetching itineraries", map[string]any{
 			"error":   err.Error(),
 			"line_id": id,
 		})
@@ -144,7 +144,7 @@ func (a Adapter) GetjsonLines(ctx context.Context, id string) ([]structs.LineStr
 	case "gzip":
 		reader, err = gzip.NewReader(resp)
 		if err != nil {
-			return nil, domain.InternalErr("unexpected error unzipping line from external api", map[string]any{
+			return nil, domain.InternalErr("unexpected error unzipping itineraries from external api", map[string]any{
 				"error":   err.Error(),
 				"line_id": id,
 			})
@@ -156,19 +156,23 @@ func (a Adapter) GetjsonLines(ctx context.Context, id string) ([]structs.LineStr
 
 	hours, err := ioutil.ReadAll(reader)
 	if err != nil {
-		return nil, domain.InternalErr("unexpected error reading line from external api", map[string]any{
+		return nil, domain.InternalErr("unexpected error reading itineraries from external api", map[string]any{
 			"error":   err.Error(),
 			"line_id": id,
 		})
 	}
 
-	var lines []structs.LineStruct
-	err = json.Unmarshal(hours, &lines)
+	var itineraries []structs.Itinerary
+	err = json.Unmarshal(hours, &itineraries)
 	if err != nil {
-		return nil, fmt.Errorf("Unmarshal error, not found files %s", err)
+		return nil, domain.InternalErr("error parsing itineraries as json", map[string]any{
+			"error":   err.Error(),
+			"payload": string(hours),
+			"line_id": id,
+		})
 	}
 
-	return lines, nil
+	return itineraries, nil
 }
 
 // GetjsonTerminals busca todas as linhas de cada terminal

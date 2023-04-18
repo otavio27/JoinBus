@@ -83,10 +83,10 @@ func (cto Controllers) GetLocation(c *fiber.Ctx) error {
 	return c.JSON(linhas)
 }
 
-func (cto Controllers) GetLines(c *fiber.Ctx) error {
+func (cto Controllers) GetItinerary(c *fiber.Ctx) error {
 	var id = c.Params("id")
 
-	lines, err := cto.ons.GetjsonLines(c.Context(), id)
+	itineraries, err := cto.ons.GetItineraries(c.Context(), id)
 	if err != nil {
 		return err
 	}
@@ -96,7 +96,7 @@ func (cto Controllers) GetLines(c *fiber.Ctx) error {
 	var hours []string
 	var linha []map[string]any
 
-	for _, data := range lines {
+	for _, data := range itineraries {
 		for _, stopData := range data.StopData {
 			switch data.Direction {
 			case "Ida":

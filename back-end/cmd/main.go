@@ -22,7 +22,7 @@ func main() {
 	app.Use(cors.New())
 
 	app.Get("/api/geolocation/:lat/:lng", cto.GetLocation)
-	app.Get("/api/linhas/:id", cto.GetLines)
+	app.Get("/api/linhas/:id", cto.GetItinerary)
 	app.Get("/api/terminais", cto.GetTerminals)
 	app.Get("/api/routes/:route", cto.GetRoutes)
 	app.Get("/api/search/:text", cto.GetlinesRegexp)
