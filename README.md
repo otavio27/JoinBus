@@ -11,13 +11,13 @@ O JoinBus é um aplicativo desenvolvido para ajudar você a se locomover pela ci
 
 ### Aqui estão algumas das principais características do JoinBus:
 
-    Horários em tempo real:
-    O JoinBus utiliza dados em tempo real para fornecer informações precisas sobre os horários de transporte público em Joinville. 
-    Com o JoinBus, você terá acesso às informações mais atualizadas sobre os horários de ônibus.
+Horários em tempo real:
+O JoinBus utiliza dados em tempo real para fornecer informações precisas sobre os horários de transporte público em Joinville. 
+Com o JoinBus, você terá acesso às informações mais atualizadas sobre os horários de ônibus.
     
-    Localização:
-    Passando sua localização para o JoinBus, ele é capaz de trazer os horários de todas as linhas que passam nessa localidade.
-    Com o horário exato de quando será o próxima passagem do ônibus por aquele local.
+Localização:
+Passando sua localização para o JoinBus, ele é capaz de trazer os horários de todas as linhas que passam nessa localidade.
+Com o horário exato de quando será o próxima passagem do ônibus por aquele local.
 
 ### Breve implementações:
 
