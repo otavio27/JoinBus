@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"log"
+	"os"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
@@ -15,10 +16,17 @@ import (
 )
 
 func main() {
+	stopsnear := os.Getenv("Stopsnear")
+	stoptripslist := os.Getenv("Stoptripslist")
+	timetable := os.Getenv("Timetable")
+	group := os.Getenv("Group")
+	referer := os.Getenv("Referer")
+	host := os.Getenv("Host")
+
 	ctx := context.Background()
 	app := fiber.New()
 	http := krest.New(30 * time.Second)
-	ons := onibus.New(http, ctx)
+	ons := onibus.New(http, ctx, stopsnear, stoptripslist, timetable, group, referer, host)
 	cto := controllers.New(ctx, http, *ons)
 	logger := jsonlog.New("info")
 	errHandler := middlewares.NewErrorHandler(logger)

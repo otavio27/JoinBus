@@ -4,10 +4,8 @@ import (
 	"compress/gzip"
 	"context"
 	"encoding/json"
-	"fmt"
 	"io"
 	"io/ioutil"
-	"os"
 
 	"github.com/otavio27/JoinBus-APP/back-end/structs"
 	"github.com/vingarcia/ddd-go-template/v2-domain-adapters-and-helpers/domain"
@@ -15,51 +13,81 @@ import (
 )
 
 type Adapter struct {
-	module string
-	http   krest.Provider
-	ctx    context.Context
+	module        string
+	http          krest.Provider
+	ctx           context.Context
+	stopsnear     string
+	stoptripslist string
+	timetable     string
+	group         string
+	referer       string
+	host          string
 }
 
-func New(http krest.Provider, ctx context.Context) *Adapter {
+func New(http krest.Provider, ctx context.Context,
+	stopsnear string, stoptripslist string, timetable string,
+	group string, referer string, host string) *Adapter {
 	return &Adapter{
-		module: "Adapter",
-		http:   http,
-		ctx:    ctx,
+		module:        "Adapter",
+		http:          http,
+		ctx:           ctx,
+		stopsnear:     stopsnear,
+		stoptripslist: stoptripslist,
+		timetable:     timetable,
+		group:         group,
+		referer:       referer,
+		host:          host,
 	}
 }
 
-// GetLocation busca as linhas mais proximas da localização passada pelo app
-func (a Adapter) GetGeoLocation(latitude string, longitude string) ([]byte, []string, error) {
-	url := os.Getenv("Stopsnear") + latitude + "&lng=" + longitude
-	resp, err := a.http.Get(a.ctx, url, krest.RequestData{
+func (a Adapter) GetGeoLocation(latitude string, longitude string) ([]structs.StopList, []string, error) {
+	resp, err := a.http.Get(a.ctx, a.stopsnear+latitude+"&lng="+longitude, krest.RequestData{
 		Headers: map[string]string{
-			"Referer":    "https://onibus.info/mapa/",
+			"Referer":    a.referer,
 			"Connection": "keep-alive",
-			"Host":       "onibus.info",
+			"Host":       a.host,
 		},
 	})
 	if err != nil {
-
 		if resp.StatusCode == 404 {
-			return nil, nil, fmt.Errorf("onibus.info/api/stopsnear?lat= was not found! %s", err)
+			return nil, nil, domain.NotFoundErr("geolocation not found", map[string]any{
+				"latitude":  latitude,
+				"longitude": longitude,
+			})
 		}
-		return nil, nil, fmt.Errorf("unexpected error when fetching geolocation: %s", err)
+		return nil, nil, domain.InternalErr("unexpected error when fetching geolocation", map[string]any{
+			"error": err.Error(),
+		})
 	}
 
 	var reader io.ReadCloser
 	switch resp.Header.Get("Content-Encoding") {
 	case "gzip":
-		reader, _ = gzip.NewReader(resp)
+		reader, err := gzip.NewReader(resp)
+		if err != nil {
+			return nil, nil, domain.InternalErr("unexpected error unzipping geolocation from external api", map[string]any{
+				"error": err.Error(),
+			})
+		}
 		defer reader.Close()
 	default:
 		reader = resp
 	}
 
-	location, _ := ioutil.ReadAll(reader)
+	location, err := ioutil.ReadAll(reader)
+	if err != nil {
+		return nil, nil, domain.InternalErr("unexpected error unzipping geolocation from external api", map[string]any{
+			"error": err.Error(),
+		})
+	}
 
 	var local []structs.Location
-	if err := json.Unmarshal(location, &local); err != nil {
-		return nil, nil, fmt.Errorf("fail to parse body as JSON: " + err.Error())
+	err = json.Unmarshal(location, &local)
+	if err != nil {
+		return nil, nil, domain.InternalErr("error parsing geolocation as json", map[string]any{
+			"error":   err.Error(),
+			"payload": string(location),
+		})
 	}
 
 	var stop_id, stop_name []string
@@ -71,35 +99,43 @@ func (a Adapter) GetGeoLocation(latitude string, longitude string) ([]byte, []st
 	return a.GetStopTripList(a.ctx, stop_id, stop_name)
 }
 
-// GetStopTripList busca as linhas que passam pelo ponto informado através da localização
-func (a Adapter) GetStopTripList(ctx context.Context, stop []string, stopName []string) ([]byte, []string, error) {
+func (a Adapter) GetStopTripList(ctx context.Context, stop []string, stopName []string) ([]structs.StopList, []string, error) {
 	var stoplist []byte
 
 	if len(stop) == 0 {
-		return nil, nil, fmt.Errorf("variavel stop está vazia")
+		return nil, nil, domain.NotFoundErr("stop variable is empty", map[string]any{
+			"stop": stop,
+		})
 	}
 
 	for _, std := range stop[:2] {
-		url := os.Getenv("Stoptripslist") + std
-
-		resp, err := a.http.Get(ctx, url, krest.RequestData{
+		resp, err := a.http.Get(ctx, a.stoptripslist+std, krest.RequestData{
 			Headers: map[string]string{
-				"Referer":    "https://onibus.info/mapa/",
+				"Referer":    a.referer,
 				"Connection": "keep-alive",
-				"Host":       "onibus.info",
+				"Host":       a.host,
 			},
 		})
 		if err != nil {
 			if resp.StatusCode == 404 {
-				return nil, nil, fmt.Errorf("onibus.info/api/stopsnear?lat= was not found! %s", err)
+				return nil, nil, domain.NotFoundErr("stoplists not found", map[string]any{
+					"stop_id": std,
+				})
 			}
-			return nil, nil, fmt.Errorf("unexpected error when fetching stop list: %s", err)
+			return nil, nil, domain.InternalErr("unexpected error when fetching stoplists", map[string]any{
+				"error": err.Error(),
+			})
 		}
 
 		var reader io.ReadCloser
 		switch resp.Header.Get("Content-Encoding") {
 		case "gzip":
-			reader, _ = gzip.NewReader(resp)
+			reader, err := gzip.NewReader(resp)
+			if err != nil {
+				return nil, nil, domain.InternalErr("unexpected error unzipping stoplists from external api", map[string]any{
+					"error": err.Error(),
+				})
+			}
 			defer reader.Close()
 		default:
 			reader = resp
@@ -107,23 +143,31 @@ func (a Adapter) GetStopTripList(ctx context.Context, stop []string, stopName []
 
 		stoplist, err = ioutil.ReadAll(reader)
 		if err != nil {
-			return nil, nil, fmt.Errorf("expected error reading reader: %s", err)
+			return nil, nil, domain.InternalErr("unexpected error reading stoplist from external api", map[string]any{
+				"error": err.Error(),
+			})
 		}
 
 	}
 
-	return stoplist, stopName, nil
+	var stoplists []structs.StopList
+	err := json.Unmarshal(stoplist, &stoplists)
+	if err != nil {
+		return nil, nil, domain.InternalErr("error parsing stoplists as json", map[string]any{
+			"error":   err.Error(),
+			"payload": string(stoplist),
+		})
+	}
+
+	return stoplists, stopName, nil
 }
 
-// GetjsonLines função que tem responssabilidade de busacar os horários da linha quando passada por nome ou ID
 func (a Adapter) GetItineraries(ctx context.Context, id string) ([]structs.Itinerary, error) {
-	url := os.Getenv("Timetable") + id
-
-	resp, err := a.http.Get(ctx, url, krest.RequestData{
+	resp, err := a.http.Get(ctx, a.timetable+id, krest.RequestData{
 		Headers: map[string]string{
-			"Referer":    "https://onibus.info/mapa/",
+			"Referer":    a.referer,
 			"Connection": "keep-alive",
-			"Host":       "onibus.info",
+			"Host":       a.host,
 		},
 	})
 
@@ -175,33 +219,55 @@ func (a Adapter) GetItineraries(ctx context.Context, id string) ([]structs.Itine
 	return itineraries, nil
 }
 
-// GetjsonTerminals busca todas as linhas de cada terminal
-func (a Adapter) GetjsonTerminals(ctx context.Context) ([]byte, error) {
-	url := os.Getenv("Group")
-
-	resp, err := a.http.Get(ctx, url, krest.RequestData{
+func (a Adapter) GetjsonTerminals(ctx context.Context) ([]structs.Stations, error) {
+	resp, err := a.http.Get(ctx, a.group, krest.RequestData{
 		Headers: map[string]string{
-			"Referer":    "https://onibus.info/mapa/",
+			"Referer":    a.referer,
 			"Connection": "keep-alive",
-			"Host":       "onibus.info",
+			"Host":       a.host,
 		},
 	})
+
 	if err != nil {
 		if resp.StatusCode == 404 {
-			return nil, fmt.Errorf("onibus.info/api/routes/group/ was not found! %s", err)
+			return nil, domain.NotFoundErr("terminals not found", map[string]any{
+				"error": err.Error(),
+			})
 		}
-		return nil, fmt.Errorf("unexpected error when fetching terminals: %s", err)
+		return nil, domain.InternalErr("unexpected error when fetching terminals", map[string]any{
+			"error": err.Error(),
+		})
 	}
 
 	var reader io.ReadCloser
 	switch resp.Header.Get("Content-Encoding") {
 	case "gzip":
-		reader, _ = gzip.NewReader(resp)
+		reader, err := gzip.NewReader(resp)
+		if err != nil {
+			return nil, domain.InternalErr("unexpected error reading terminals from external api", map[string]any{
+				"error": err.Error(),
+			})
+		}
 		defer reader.Close()
 	default:
 		reader = resp
 	}
 
-	term, _ := ioutil.ReadAll(reader)
-	return term, nil
+	term, err := ioutil.ReadAll(reader)
+	if err != nil {
+		return nil, domain.InternalErr("unexpected error reading terminals from external api", map[string]any{
+			"error": err.Error(),
+		})
+	}
+
+	var Stations []structs.Stations
+	err = json.Unmarshal(term, &Stations)
+	if err != nil {
+		return nil, domain.InternalErr("error parsing terminals as json", map[string]any{
+			"error":   err.Error(),
+			"payload": string(term),
+		})
+	}
+
+	return Stations, nil
 }
