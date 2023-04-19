@@ -7,8 +7,14 @@ import (
 )
 
 type LogProvider interface {
-	Msg(ctx context.Context, module, message string, level int)
+	Debug(ctx context.Context, title string, valueMaps ...LogBody)
+	Info(ctx context.Context, title string, valueMaps ...LogBody)
+	Warn(ctx context.Context, title string, valueMaps ...LogBody)
+	Error(ctx context.Context, title string, valueMaps ...LogBody)
+	Fatal(ctx context.Context, title string, valueMaps ...LogBody)
 }
+
+type LogBody = map[string]any
 
 type CfgProvider interface {
 	GetString(key string) string

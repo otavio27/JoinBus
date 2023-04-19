@@ -11,7 +11,7 @@ import (
 	"time"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/otavio27/JoinBus-APP/back-end/onibus"
+	"github.com/otavio27/JoinBus-APP/back-end/adapters/onibus"
 	"github.com/otavio27/JoinBus-APP/back-end/structs"
 	"github.com/vingarcia/krest"
 	"golang.org/x/text/cases"
