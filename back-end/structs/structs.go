@@ -68,7 +68,7 @@ type StopList struct {
 	} `json:"trips"`
 }
 
-type LineStruct struct {
+type Itinerary struct {
 	Routes        []routes   `json:"routes"`
 	StopData      []stopdata `json:"stop_data"`
 	RouteID       string     `json:"route_id"`
