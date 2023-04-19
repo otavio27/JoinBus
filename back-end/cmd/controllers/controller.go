@@ -12,6 +12,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/otavio27/JoinBus-APP/back-end/adapters/onibus"
+	"github.com/otavio27/JoinBus-APP/back-end/domain"
 	"github.com/otavio27/JoinBus-APP/back-end/structs"
 	"github.com/vingarcia/krest"
 	"golang.org/x/text/cases"
@@ -94,7 +95,7 @@ func (cto Controllers) GetItinerary(c *fiber.Ctx) error {
 	var direction string
 	var operatesToday bool
 	var hours []string
-	var linha []map[string]any
+	var itinerariesOfTheDay []map[string]any
 
 	for _, data := range itineraries {
 		for _, stopData := range data.StopData {
@@ -117,8 +118,7 @@ func (cto Controllers) GetItinerary(c *fiber.Ctx) error {
 				}
 			}
 
-			linha = append(linha, map[string]any{
-				"warning":   "",
+			itinerariesOfTheDay = append(itinerariesOfTheDay, map[string]any{
 				"weekday":   cto.getServiceTypeForToday(),
 				"id":        id,
 				"name":      cto.getNameLines(c.Context(), id),
@@ -130,23 +130,18 @@ func (cto Controllers) GetItinerary(c *fiber.Ctx) error {
 
 	}
 
-	if len(linha) == 0 {
-		linha = append(linha, map[string]any{
-			"warning":   "Linha solicitada não existe!",
-			"weekday":   "",
-			"id":        "",
-			"name":      "",
-			"station":   "",
-			"direction": "",
-			"hours":     []string{},
+	if len(itinerariesOfTheDay) == 0 {
+		return domain.NotFoundErr("no itineraries available for today", map[string]any{
+			"message": "Linha solicitada não existe!",
+			"line_id": id,
 		})
 	}
 
 	if operatesToday {
-		return c.JSON(linha)
+		return c.JSON(itinerariesOfTheDay)
 	}
 
-	return c.JSON(linha)
+	return c.JSON(itinerariesOfTheDay)
 }
 
 // GetTerminals é uma função que retorna informações sobre terminais em um objeto JSON.
