@@ -7,7 +7,7 @@
 ### Bem-vindo ao JoinBus 
 #### Um aplicativo de transporte público em tempo real para a cidade de Joinville, Santa Catarina!
 
-O JoinBus é um aplicativo desenvolvido para ajudar você a se locomover pela cidade de Joinville com mais facilidade. Com o JoinBus, você pode encontrar informações em tempo real sobre horários de ônibus do transporte público na cidade de Joinville, para que você possa planejar suas viagens com mais eficiência.
+O JoinBus é um aplicativo desenvolvido para ajudar você a se locomover pela cidade de Joinville com mais facilidade. Com o JoinBus, você pode encontrar informações em tempo real sobre horários de ônibus do transporte público da cidade de Joinville, para que você possa planejar suas viagens com mais eficiência.
 
 ### Aqui estão algumas das principais características do JoinBus:
 
