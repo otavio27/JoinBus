@@ -15,7 +15,7 @@ Com o JoinBus, você terá acesso às informações mais atualizadas sobre os ho
     
 Localização:
 Passando sua localização para o JoinBus, ele é capaz de trazer os horários de todas as linhas que passam nessa localidade.
-Com o horário exato de quando será o próxima passagem do ônibus por aquele local.
+Com o horário exato de quando será a próxima vez em que o ônibus passará por aquele local.
 
 ### Breve implementações:
 
