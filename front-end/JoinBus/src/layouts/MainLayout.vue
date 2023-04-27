@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lHh Lpr lFf" style="background-color: #414143">
+  <q-layout view="lHh Lpr lFf" style="background-color: #5a5a5a">
     <q-header elevated>
       <q-toolbar>
         <q-toolbar-title> JoinBus </q-toolbar-title>
