@@ -51,7 +51,7 @@ onMounted(async () => {
   $q.loading.show({
     spinnerColor: "primary",
     message: "Carregando...",
-    messageColor: "amber",
+    messageColor: "primary",
   });
   const { data } = await api.get("/routes/" + props.terminal);
   const res = data?.[0];

@@ -68,7 +68,7 @@ onMounted(async () => {
   $q.loading.show({
     spinnerColor: "primary",
     message: "Carregando...",
-    messageColor: "amber",
+    messageColor: "primary",
   });
   const { data } = await api.get("/linhas/" + props.linha);
   hours.value = data;

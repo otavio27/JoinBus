@@ -53,7 +53,7 @@ onMounted(async () => {
   $q.loading.show({
     spinnerColor: "primary",
     message: "Carregando...",
-    messageColor: "amber",
+    messageColor: "primary",
   });
   await isReady.value;
   const { data } = await api.get(
