@@ -1,7 +1,7 @@
 /* app global css */
 
 body.body--dark {
-  --q-primary: #26a69a;
+  --q-primary: #0080ff;
   --q-secondary: #027be3;
   --q-accent: #9c27b0;
   --q-positive: #21ba45;
@@ -11,7 +11,7 @@ body.body--dark {
 }
 
 body.body--light {
-  --q-primary: rgb(203, 115, 1);
+  --q-primary: #0080ff;
   --q-secondary: #26a69a;
   --q-accent: #9c27b0;
   --q-positive: #21ba45;
