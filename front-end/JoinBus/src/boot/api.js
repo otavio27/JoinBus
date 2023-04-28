@@ -2,7 +2,7 @@ import { boot } from "quasar/wrappers";
 import { apiKey } from "src/composable/api";
 import axios from "axios";
 // import { useAuthStore } from 'src/stores/auth'
-// import { Notify } from 'quasar';
+import { Notify } from "quasar";
 
 export default boot(({ app, store /*, router*/ }) => {
   const api = axios.create({
@@ -34,31 +34,25 @@ export default boot(({ app, store /*, router*/ }) => {
     },
     function (error) {
       // faça aqui qual quer logica em caso de erro, como uma notificação, log ou refresh.
-      /*
-    const res = error.response;
-    switch (res.status) {
-      case 401:
-        if (authStore.token) {
-          await authStore.refresh();
-          if (authStore.token) {
-            return api.request(error.config)
-          }
-        }
-        if (res.data?.path != '/api/auth/refresh') {
-          Notify.create({ message: 'Usuario não autenticado', color: 'warning' })
-          if (router.currentRoute.value.name !== 'login') {
-            router.push('/login')
-          }
-        }
-        break;
-      case 403:
-        Notify.create({ message: 'Você não tem permissão', color: 'warning' })
-        if (router.currentRoute.value.name !== 'home') {
-          router.push('/home')
-        }
-        break;
-    }
-    */
+
+      const res = error.response;
+      switch (res.status) {
+        case 403:
+          Notify.create({
+            message: "Você não tem permissão",
+            position: "top",
+            color: "warning",
+          });
+          break;
+        case 500:
+          Notify.create({
+            message: "Erro interno",
+            position: "top",
+            color: "danger",
+          });
+          break;
+      }
+
       return Promise.reject(error);
     }
   );
