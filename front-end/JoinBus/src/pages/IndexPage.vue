@@ -95,7 +95,6 @@ const props = defineProps({
 });
 
 const linhas = ref([]);
-const line_id = ref([]);
 const filter = ref(initial);
 
 function updateRoute() {
@@ -103,7 +102,6 @@ function updateRoute() {
   const query = {
     ...curQuery,
     filter: filter.value,
-    line_id: line_id.value,
   };
   router.replace({
     name,
@@ -112,16 +110,20 @@ function updateRoute() {
   });
 }
 
-async function doSearch() {
-  let ID = filter.value.replace(/[^0-9]/g);
+const redirectToHours = () => {
+  const ID = filter.value.replace(/[^0-9]/g);
 
-  if (ID) {
-    const { data } = await api.get("search/" + ID);
-    line_id.value = data;
-  } else {
-    line_id.value = [];
+  if (ID.length === 4) {
+    router.push({
+      name: "linha",
+      params: { terminal: props.terminal, linha: filter.value },
+    });
+    return;
   }
+};
 
+async function doSearch() {
+  redirectToHours();
   if (filter.value) {
     const { data } = await api.get("search/" + filter.value);
     linhas.value = data;
