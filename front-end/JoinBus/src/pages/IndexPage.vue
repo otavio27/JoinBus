@@ -10,19 +10,33 @@
       >
         <q-card-section class="row q-col-gutter-y-md">
           <div class="col col-12" v-for="line in linhas" :key="line.id">
-            <q-btn
-              class="full-width"
-              color="primary"
-              style="width: 70%"
-              :to="{
-                name: 'linha',
-                params: { linha: line.id },
-              }"
-            >
-              <div class="ellipsis">
-                {{ line.name }}
-              </div>
-            </q-btn>
+            <div v-if="line.name !== ''">
+              <q-btn
+                class="full-width"
+                color="primary"
+                style="width: 70%"
+                :to="{
+                  name: 'linha',
+                  params: { linha: line.id },
+                }"
+              >
+                <div class="ellipsis">{{ line.id }} - {{ line.name }}</div>
+              </q-btn>
+            </div>
+
+            <div v-else>
+              <q-card-section class="q-gutter-sm">
+                <q-input filled readonly v-model="warning" />
+              </q-card-section>
+              <q-btn
+                class="full-width"
+                color="primary"
+                style="width: 70%"
+                to="/refresh"
+              >
+                <div class="ellipsis">VOLTAR</div>
+              </q-btn>
+            </div>
           </div>
         </q-card-section>
       </q-card>
@@ -95,6 +109,7 @@ const props = defineProps({
 
 const linhas = ref([]);
 const filter = ref(initial);
+const warning = "A Linha solicitada não foi encontrada!";
 
 const updateRoute = () => {
   const { name, query: curQuery, params } = route;
