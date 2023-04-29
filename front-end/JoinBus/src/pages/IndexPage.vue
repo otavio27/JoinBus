@@ -91,13 +91,12 @@ const props = defineProps({
     default: "index",
   },
   linhas: String,
-  line_id: String,
 });
 
 const linhas = ref([]);
 const filter = ref(initial);
 
-function updateRoute() {
+const updateRoute = () => {
   const { name, query: curQuery, params } = route;
   const query = {
     ...curQuery,
@@ -108,7 +107,7 @@ function updateRoute() {
     query,
     params,
   });
-}
+};
 
 const redirectToHours = () => {
   const ID = filter.value.replace(/[^0-9]/g);
@@ -122,7 +121,7 @@ const redirectToHours = () => {
   }
 };
 
-async function doSearch() {
+const doSearch = async () => {
   redirectToHours();
   if (filter.value) {
     const { data } = await api.get("search/" + filter.value);
@@ -131,16 +130,16 @@ async function doSearch() {
     linhas.value = [];
   }
   onReset();
-}
+};
 
-async function onSearch() {
+const onSearch = async () => {
   if (filter.value) {
     await doSearch();
     updateRoute();
   } else {
     notifyWarning("O campo de busca deve ser preenchido!");
   }
-}
+};
 
 onMounted(async () => {
   await doSearch();
