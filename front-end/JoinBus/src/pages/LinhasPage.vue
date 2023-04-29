@@ -23,9 +23,7 @@
               params: { terminal: props.terminal, linha: line.id },
             }"
           >
-            <div class="ellipsis">
-              {{ line.name }}
-            </div>
+            <div class="ellipsis">{{ line.id }} - {{ line.name }}</div>
           </q-btn>
         </div>
       </q-card-section>
