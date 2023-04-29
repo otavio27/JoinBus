@@ -28,14 +28,16 @@
               <q-card-section class="q-gutter-sm">
                 <q-input filled readonly v-model="warning" />
               </q-card-section>
+              <q-separator></q-separator>
               <q-btn
                 class="full-width"
                 color="primary"
                 style="width: 70%"
-                to="/refresh"
+                @click="refreshPage"
               >
                 <div class="ellipsis">VOLTAR</div>
               </q-btn>
+              <q-separator></q-separator>
             </div>
           </div>
         </q-card-section>
@@ -154,6 +156,11 @@ const onSearch = async () => {
   } else {
     notifyWarning("O campo de busca deve ser preenchido!");
   }
+};
+
+const refreshPage = () => {
+  linhas.value = [];
+  filter.value = initial;
 };
 
 onMounted(async () => {

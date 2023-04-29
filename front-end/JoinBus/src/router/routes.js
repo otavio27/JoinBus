@@ -4,11 +4,6 @@ const routes = [
     component: () => import("layouts/MainLayout.vue"),
     children: [
       {
-        name: "refresh",
-        path: "/refresh",
-        component: () => import("src/pages/IndexPage.vue"),
-      },
-      {
         name: "index",
         path: "",
         component: () => import("src/pages/IndexPage.vue"),
