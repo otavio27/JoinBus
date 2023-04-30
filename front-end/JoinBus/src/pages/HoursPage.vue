@@ -25,7 +25,7 @@
       v-for="hour in hours"
       :key="hour.id"
     >
-      <q-card class="full-width" style="max-width: 95%">
+      <q-card class="full-width" style="max-width: 95%" v-if="hour.hours">
         <q-card-section>
           <span class="text-h6 text-center">{{ hour.id }} {{ hour.name }}</span>
         </q-card-section>
@@ -45,6 +45,18 @@
           >
         </q-card-section>
       </q-card>
+
+      <q-card class="full-width" style="max-width: 95%" v-else>
+        <q-card-section>
+          <span class="text-h6 text-center"
+            >{{ hours.id }} {{ hours.name }}</span
+          >
+        </q-card-section>
+        <q-card-section class="q-gutter-sm">
+          <q-input filled readonly v-model="warning" />
+        </q-card-section>
+        <q-card-section class="q-gutter-sm text-center"> </q-card-section>
+      </q-card>
     </div>
   </q-page>
 </template>
@@ -57,6 +69,7 @@ import { onMounted, ref } from "vue";
 const $q = useQuasar();
 
 let hours = ref([]);
+const warning = "Esta linha não apresenta horarios para hoje.";
 
 const props = defineProps({
   terminal: String,
