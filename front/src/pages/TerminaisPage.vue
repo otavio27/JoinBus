@@ -2,13 +2,13 @@
   <div class="q-pa-sm">
     <q-page class="flex flex-center">
       <q-card class="q-ma-md full-width" style="max-width: 95%">
-        <div class="grid q-pa-md q-gutter-sm">
-          <q-btn color="primary" style="width: 70%">
-            <RouterLink class="ow-router-link" to="/">Voltar</RouterLink>
-          </q-btn>
-          <q-separator></q-separator>
-        </div>
-        <div
+        <q-card-section class="grid q-pa-md q-gutter-sm">
+          <q-btn color="primary" style="width: 70%" to="/"> Voltar </q-btn>
+        </q-card-section>
+
+        <q-separator />
+
+        <q-card-section
           class="grid q-pa-md q-gutter-sm"
           v-for="station in stattions.name"
           :key="station.id"
@@ -22,7 +22,7 @@
               {{ station }}
             </div>
           </q-btn>
-        </div>
+        </q-card-section>
       </q-card>
     </q-page>
   </div>

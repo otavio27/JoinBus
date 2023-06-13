@@ -45,22 +45,18 @@
 
       <q-card class="q-ma-md full-width" style="max-width: 95%" v-else>
         <div class="grid q-pa-md q-gutter-sm">
-          <q-btn color="primary" style="margin-top: 10%; width: 70%">
-            <div class="ellipsis">
-              <RouterLink class="ow-router-link" :to="{ name: 'terminais' }"
-                >Terminais</RouterLink
-              >
-            </div>
+          <q-btn
+            color="primary"
+            style="margin-top: 10%; width: 70%"
+            :to="{ name: 'terminais' }"
+          >
+            Terminais
           </q-btn>
         </div>
 
         <div class="grid q-pa-md q-gutter-sm">
-          <q-btn color="primary" style="width: 70%">
-            <div class="ellipsis">
-              <RouterLink class="ow-router-link" :to="{ name: 'locale' }"
-                >Localização</RouterLink
-              >
-            </div>
+          <q-btn color="primary" style="width: 70%" :to="{ name: 'locale' }">
+            Localização
           </q-btn>
         </div>
 
