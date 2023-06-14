@@ -1,6 +1,6 @@
 # JoinBus
 
-<img  algin="center" alt="JoinBus" src="https://github.com/otavio27/JoinBus/blob/master/front/JoinBus/src/assets/joinbus.png"  class="centerImage" style="width: 350px; height: 350px; margim-left: 50%">
+<img  algin="center" alt="JoinBus" src="https://github.com/otavio27/JoinBus/blob/master/front/src/assets/joinbus.png"  class="centerImage" style="width: 350px; height: 350px; margim-left: 50%">
 
 ### Bem-vindo ao JoinBus 
 #### Um aplicativo de transporte público em tempo real para a cidade de Joinville, Santa Catarina!
