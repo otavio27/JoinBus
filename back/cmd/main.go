@@ -32,7 +32,7 @@ func main() {
 	errHandler := middlewares.NewErrorHandler(logger)
 
 	app.Use(cors.New(cors.Config{
-		AllowOrigins: "*",
+		AllowOrigins: "https://owtechsystems.com/, https://*.owtechsystems.com/",
 		AllowHeaders: "Origin, Content-Type, Accept",
 		AllowMethods: "GET, POST, PUT, DELETE, OPTIONS, HEAD",
 	}))
