@@ -31,7 +31,12 @@ func main() {
 	logger := jsonlog.New("info")
 	errHandler := middlewares.NewErrorHandler(logger)
 
-	app.Use(cors.New())
+	app.Use(cors.New(cors.Config{
+		AllowOrigins: "https://owtechsystems.com, https://*.owtechsystems.com",
+		AllowHeaders: "Origin, Content-Type, Accept",
+		AllowMethods: "GET, POST, PUT, DELETE, OPTIONS, HEAD",
+	}))
+
 	app.Use(errHandler.Middleware)
 
 	app.Get("/api/geolocation/:lat/:lng", cto.GetLocation)
