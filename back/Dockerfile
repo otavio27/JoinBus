@@ -15,6 +15,6 @@ RUN go build -o /JoinBus ./cmd/main.go
 # Start a new stage from scratch:
 FROM alpine:3.18
 
-COPY --from=builder /api /api
+COPY --from=builder /JoinBus /JoinBus
 
-CMD /JoinBus
+CMD ["/JoinBus"]
