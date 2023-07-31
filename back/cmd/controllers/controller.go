@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"net/url"
 	"regexp"
@@ -135,7 +136,7 @@ func (cto Controllers) GetTerminals(c *fiber.Ctx) error {
 	if err != nil {
 		return err
 	}
-
+	fmt.Println("Valor de stations: ", stations)
 	var terminals map[string]any
 	var terms []string
 	for _, TRM := range stations {
