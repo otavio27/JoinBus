@@ -4,7 +4,6 @@ import (
 	"context"
 	"log"
 	"os"
-	"strings"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
@@ -32,14 +31,7 @@ func main() {
 	logger := jsonlog.New("info")
 	errHandler := middlewares.NewErrorHandler(logger)
 
-	app.Use(cors.New(cors.Config{
-		AllowOrigins:     "*",
-		AllowMethods:     strings.Join([]string{fiber.MethodGet}, ","),
-		AllowHeaders:     "*",
-		AllowCredentials: false,
-		ExposeHeaders:    "*",
-		MaxAge:           1800,
-	}))
+	app.Use(cors.New())
 
 	app.Get("/api/geolocation/:lat/:lng", errHandler.Middleware, cto.GetLocation)
 	app.Get("/api/linhas/:id", errHandler.Middleware, cto.GetItinerary)
