@@ -13,7 +13,6 @@ services:
       - Stopsnear="https://onibus.info/api/stopsnear?lat="
       - Referer="https://onibus.info/mapa/"
       - Host="onibus.info"
-
     ports:
       - "8750:80"
     restart: always
