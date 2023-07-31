@@ -1,6 +1,6 @@
 image:
-	docker-compose up --build -d joinbus_app
+	docker-compose up --build -d --remove-orphans joinbus_app 
 up:
-	dc up -d joinbus_app
+	docker-compose up -d joinbus_app
 logs:
-	dc logs -f joinbus_app
+	docker-compose logs -f joinbus_app
