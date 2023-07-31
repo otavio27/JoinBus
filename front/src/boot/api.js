@@ -7,6 +7,11 @@ import { Notify } from "quasar";
 export default boot(({ app, store /*, router*/ }) => {
   const api = axios.create({
     baseURL: process.env.BASE_URL, // vai ler o 'BASE_URL' que está no json, ou seja 'http://localhost:8000/api'
+    headers: {
+      headers: { // Adicione aqui os headers que você precisa, como o header CORS
+        "Access-Control-Allow-Origin": "http://localhost:8090/#/, https://owtechsystems.com/", // Permitir qualquer origem (apenas para fins de exemplo)
+      },
+    },
   });
 
   app.provide(apiKey, api);
