@@ -37,11 +37,6 @@ func main() {
 		AllowOrigins: "*",
 		AllowMethods: strings.Join([]string{
 			fiber.MethodGet,
-			fiber.MethodPost,
-			fiber.MethodHead,
-			fiber.MethodPut,
-			fiber.MethodDelete,
-			fiber.MethodPatch,
 		}, ","),
 		AllowHeaders:     "",
 		AllowCredentials: false,
@@ -49,13 +44,11 @@ func main() {
 		MaxAge:           0,
 	}))
 
-	app.Use(errHandler.Middleware)
-
-	app.Get("/api/geolocation/:lat/:lng", cto.GetLocation)
-	app.Get("/api/linhas/:id", cto.GetItinerary)
-	app.Get("/api/terminais", cto.GetTerminals)
-	app.Get("/api/routes/:route", cto.GetRoutes)
-	app.Get("/api/search/:text", cto.GetlinesRegexp)
+	app.Get("/api/geolocation/:lat/:lng", errHandler.Middleware, cto.GetLocation)
+	app.Get("/api/linhas/:id", errHandler.Middleware, cto.GetItinerary)
+	app.Get("/api/terminais", errHandler.Middleware, cto.GetTerminals)
+	app.Get("/api/routes/:route", errHandler.Middleware, cto.GetRoutes)
+	app.Get("/api/search/:text", errHandler.Middleware, cto.GetlinesRegexp)
 
 	log.Fatal(app.Listen(":8000"))
 }
