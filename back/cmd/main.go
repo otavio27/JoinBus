@@ -33,14 +33,12 @@ func main() {
 	errHandler := middlewares.NewErrorHandler(logger)
 
 	app.Use(cors.New(cors.Config{
-		Next: nil,
-		//AllowOrigins:     "http://localhost:8090/#/,http://localhost:8090,https://owtechsystems.com,https://*.owtechsystems.com",
 		AllowOrigins:     "*",
 		AllowMethods:     strings.Join([]string{fiber.MethodGet}, ","),
 		AllowHeaders:     "*",
 		AllowCredentials: false,
 		ExposeHeaders:    "*",
-		MaxAge:           0,
+		MaxAge:           1800,
 	}))
 
 	app.Get("/api/geolocation/:lat/:lng", errHandler.Middleware, cto.GetLocation)
