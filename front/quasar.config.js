@@ -14,7 +14,7 @@ const { configure } = require("quasar/wrappers");
 
 const { readFileSync } = require("fs");
 
-const envName = process.env.QENV || "prod";
+const envName = process.env.QENV || "dev";
 const env = JSON.parse(readFileSync(`./envs/${envName}.json`));
 
 module.exports = configure(function (ctx) {
