@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"os"
 	"time"
@@ -16,13 +17,14 @@ import (
 )
 
 func main() {
+	fmt.Println("main step: 1")
 	stopsnear := os.Getenv("Stopsnear")
 	stoptripslist := os.Getenv("Stoptripslist")
 	timetable := os.Getenv("Timetable")
 	group := os.Getenv("Group")
 	referer := os.Getenv("Referer")
 	host := os.Getenv("Host")
-
+	fmt.Println("main step: 2")
 	ctx := context.Background()
 	app := fiber.New()
 	http := krest.New(30 * time.Second)
@@ -30,7 +32,7 @@ func main() {
 	cto := controllers.New(ctx, http, *ons)
 	logger := jsonlog.New("info")
 	errHandler := middlewares.NewErrorHandler(logger)
-
+	fmt.Println("main step: 3")
 	app.Use(cors.New(cors.Config{
 		AllowOrigins: "*",
 	}))
@@ -40,6 +42,6 @@ func main() {
 	app.Get("/api/terminais", errHandler.Middleware, cto.GetTerminals)
 	app.Get("/api/routes/:route", errHandler.Middleware, cto.GetRoutes)
 	app.Get("/api/search/:text", errHandler.Middleware, cto.GetlinesRegexp)
-
+	fmt.Println("main step: 4")
 	log.Fatal(app.Listen(":8750"))
 }
