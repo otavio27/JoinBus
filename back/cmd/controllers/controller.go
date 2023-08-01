@@ -132,11 +132,12 @@ func (cto Controllers) GetItinerary(c *fiber.Ctx) error {
 }
 
 func (cto Controllers) GetTerminals(c *fiber.Ctx) error {
+	fmt.Println("GetTerminals step: 1")
 	stations, err := cto.ons.GetjsonTerminals(c.Context())
 	if err != nil {
 		return err
 	}
-	fmt.Println("Valor de stations: ", stations)
+	fmt.Println("GetTerminals step: 2")
 	var terminals map[string]any
 	var terms []string
 	for _, TRM := range stations {

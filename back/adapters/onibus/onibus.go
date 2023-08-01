@@ -4,6 +4,7 @@ import (
 	"compress/gzip"
 	"context"
 	"encoding/json"
+	"fmt"
 	"io"
 	"io/ioutil"
 
@@ -220,6 +221,7 @@ func (a Adapter) GetItineraries(ctx context.Context, id string) ([]structs.Itine
 }
 
 func (a Adapter) GetjsonTerminals(ctx context.Context) ([]structs.Stations, error) {
+	fmt.Println("GetjsonTerminals step: 1")
 	resp, err := a.http.Get(ctx, a.group, krest.RequestData{
 		Headers: map[string]string{
 			"Referer":    a.referer,
@@ -227,13 +229,14 @@ func (a Adapter) GetjsonTerminals(ctx context.Context) ([]structs.Stations, erro
 			"Host":       a.host,
 		},
 	})
-
+	fmt.Println("GetjsonTerminals step: 2")
 	if err != nil {
 		if resp.StatusCode == 404 {
 			return nil, domain.NotFoundErr("terminals not found", map[string]any{
 				"error": err.Error(),
 			})
 		}
+		fmt.Println("GetjsonTerminals step: 3")
 		return nil, domain.InternalErr("unexpected error when fetching terminals", map[string]any{
 			"error": err.Error(),
 		})
@@ -252,14 +255,14 @@ func (a Adapter) GetjsonTerminals(ctx context.Context) ([]structs.Stations, erro
 	default:
 		reader = resp
 	}
-
+	fmt.Println("GetjsonTerminals step: 4")
 	term, err := ioutil.ReadAll(reader)
 	if err != nil {
 		return nil, domain.InternalErr("unexpected error reading terminals from external api", map[string]any{
 			"error": err.Error(),
 		})
 	}
-
+	fmt.Println("GetjsonTerminals step: 5")
 	var Stations []structs.Stations
 	err = json.Unmarshal(term, &Stations)
 	if err != nil {
@@ -268,6 +271,6 @@ func (a Adapter) GetjsonTerminals(ctx context.Context) ([]structs.Stations, erro
 			"payload": string(term),
 		})
 	}
-
+	fmt.Println("GetjsonTerminals step: 6")
 	return Stations, nil
 }
