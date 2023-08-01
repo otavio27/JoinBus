@@ -39,14 +39,21 @@ export default boot(({ app, store /*, router*/ }) => {
       switch (res.status) {
         case 403:
           Notify.create({
-            message: "Você não tem permissão!",
+            message: "forbiden!",
+            position: "top",
+            color: "warning",
+          });
+          break;
+          case 404:
+          Notify.create({
+            message: "not found!",
             position: "top",
             color: "warning",
           });
           break;
         case 500:
           Notify.create({
-            message: "Erro interno.",
+            message: "internal error.",
             position: "top",
             color: "danger",
           });
