@@ -53,7 +53,14 @@ export default boot(({ app, store /*, router*/ }) => {
           break;
         case 500:
           Notify.create({
-            message: "internal error.",
+            message: "internal error!",
+            position: "top",
+            color: "danger",
+          });
+          break;
+          case 502:
+          Notify.create({
+            message: "bad resquest!",
             position: "top",
             color: "danger",
           });
