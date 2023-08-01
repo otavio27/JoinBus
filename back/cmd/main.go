@@ -24,11 +24,16 @@ func main() {
 	host := os.Getenv("Host")
 
 	ctx := context.Background()
-	app := fiber.New()
 	http := krest.New(30 * time.Second)
 	ons := onibus.New(http, ctx, stopsnear, stoptripslist, timetable, group, referer, host)
 	cto := controllers.New(ctx, http, *ons)
 	logger := jsonlog.New("info")
+	app := fiber.New()
+	app.Get("/", func(c *fiber.Ctx) error {
+		return c.JSON(map[string]any{
+			"service": "JoinBus",
+		})
+	})
 	errHandler := middlewares.NewErrorHandler(logger)
 
 	app.Use(cors.New(cors.Config{
