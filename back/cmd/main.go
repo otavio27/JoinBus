@@ -22,10 +22,6 @@ func main() {
 	group := os.Getenv("Group")
 	referer := os.Getenv("Referer")
 	host := os.Getenv("Host")
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "80"
-	}
 
 	ctx := context.Background()
 	app := fiber.New()
@@ -45,5 +41,5 @@ func main() {
 	app.Get("/api/routes/:route", errHandler.Middleware, cto.GetRoutes)
 	app.Get("/api/search/:text", errHandler.Middleware, cto.GetlinesRegexp)
 
-	log.Fatal(app.Listen(":" + port))
+	log.Fatal(app.Listen(":9750"))
 }
