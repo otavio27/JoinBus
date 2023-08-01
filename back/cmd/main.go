@@ -31,7 +31,9 @@ func main() {
 	logger := jsonlog.New("info")
 	errHandler := middlewares.NewErrorHandler(logger)
 
-	app.Use(cors.New())
+	app.Use(cors.New(cors.Config{
+		AllowOrigins: "*",
+	}))
 
 	app.Get("/api/geolocation/:lat/:lng", errHandler.Middleware, cto.GetLocation)
 	app.Get("/api/linhas/:id", errHandler.Middleware, cto.GetItinerary)
