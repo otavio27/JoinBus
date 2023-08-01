@@ -1,18 +1,15 @@
-version: '3'
-
+version: "3"
 services:
-  app_joinbus:
-    build:
-      dockerfile: Dockerfile
-    environment:
-    - Group="https://onibus.info/api/routes/group"
-    - Timetable="https://onibus.info/api/timetable/"
-    - Routes="https://onibus.info/api/routes/"
-    - Stoptripslist="https://onibus.info/api/stoptrips/"
-    - Stopsnear="https://onibus.info/api/stopsnear?lat="
-    - Referer="https://onibus.info/mapa/"
-    - Host="onibus.info"
-
-    ports:
-      - "9750:80"
+  joinbus:
+    build: .
     restart: always
+    ports:
+      - 9750:80
+    environment:
+      - Group="https://onibus.info/api/routes/group"
+      - Timetable="https://onibus.info/api/timetable/"
+      - Routes="https://onibus.info/api/routes/"
+      - Stoptripslist="https://onibus.info/api/stoptrips/"
+      - Stopsnear="https://onibus.info/api/stopsnear?lat="
+      - Referer="https://onibus.info/mapa/"
+      - Host="onibus.info"
