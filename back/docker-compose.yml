@@ -3,7 +3,6 @@ version: '3'
 services:
   app_joinbus:
     build:
-      context: .
       dockerfile: Dockerfile
     environment:
     - Group="https://onibus.info/api/routes/group"
