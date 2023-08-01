@@ -41,5 +41,8 @@ func main() {
 	app.Get("/api/routes/:route", errHandler.Middleware, cto.GetRoutes)
 	app.Get("/api/search/:text", errHandler.Middleware, cto.GetlinesRegexp)
 
-	log.Fatal(app.Listen(":9750"))
+	err := app.Listen(":9750")
+	if err != nil {
+		log.Fatal(err)
+	}
 }
