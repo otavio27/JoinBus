@@ -1,5 +1,5 @@
 image:
-	docker-compose up --build -d --remove-orphans back_joinbus 
+	docker-compose up --build -d --remove-orphans
 up:
 	docker-compose up -d 
 clear:
