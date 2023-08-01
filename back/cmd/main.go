@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"os"
 	"time"
@@ -22,6 +23,13 @@ func main() {
 	group := os.Getenv("Group")
 	referer := os.Getenv("Referer")
 	host := os.Getenv("Host")
+
+	fmt.Println("Valor de Stopsnear: ", stopsnear)
+	fmt.Println("Valor de Stoptripslist: ", stoptripslist)
+	fmt.Println("Valor de Timetable: ", timetable)
+	fmt.Println("Valor de Group: ", group)
+	fmt.Println("Valor de Referer: ", referer)
+	fmt.Println("Valor de Host: ", host)
 
 	ctx := context.Background()
 	app := fiber.New()
