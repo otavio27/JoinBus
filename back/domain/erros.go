@@ -29,7 +29,10 @@ func AsDomainErr(err error) DomainErr {
 	}
 	return DomainErr{
 		Code:  "InternalErr",
-		Title: err.Error(),
+		Title: "unexpected error",
+		Data: map[string]any{
+			"error": err.Error(),
+		},
 	}
 }
 

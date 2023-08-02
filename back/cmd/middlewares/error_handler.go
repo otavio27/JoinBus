@@ -3,7 +3,6 @@ package middlewares
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/otavio27/JoinBus-APP/back-end/contracts"
@@ -23,7 +22,6 @@ func NewErrorHandler(logger contracts.LogProvider) ErrorHandler {
 }
 
 func (e ErrorHandler) Middleware(c *fiber.Ctx) error {
-	fmt.Println("Step: 1")
 	err := c.Next()
 	if err == nil {
 		return nil
@@ -42,7 +40,6 @@ func (e ErrorHandler) Middleware(c *fiber.Ctx) error {
 }
 
 func handleDomainErrAsHTTP(ctx context.Context, logger contracts.LogProvider, err error, method string, path string) (status int, responseBody []byte) {
-	fmt.Println("Step: 2")
 	domainErr := domain.AsDomainErr(err)
 
 	response := map[string]any{

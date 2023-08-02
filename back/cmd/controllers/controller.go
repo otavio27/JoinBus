@@ -2,8 +2,6 @@ package controllers
 
 import (
 	"context"
-	"fmt"
-	"log"
 	"net/url"
 	"regexp"
 	"strings"
@@ -132,12 +130,13 @@ func (cto Controllers) GetItinerary(c *fiber.Ctx) error {
 }
 
 func (cto Controllers) GetTerminals(c *fiber.Ctx) error {
-	fmt.Println("GetTerminals step: 1")
 	stations, err := cto.ons.GetjsonTerminals(c.Context())
 	if err != nil {
-		return err
+		return domain.InternalErr("unable to get json terminals", map[string]any{
+			"error": err.Error(),
+		})
 	}
-	fmt.Println("GetTerminals step: 2")
+
 	var terminals map[string]any
 	var terms []string
 	for _, TRM := range stations {
@@ -156,12 +155,17 @@ func (cto Controllers) GetRoutes(c *fiber.Ctx) error {
 
 	path, err := url.PathUnescape(rtes)
 	if err != nil {
-		log.Fatal(err)
+		return domain.InternalErr("unable to Unescape route", map[string]any{
+			"route": rtes,
+			"error": err.Error(),
+		})
 	}
 
 	stations, err := cto.ons.GetjsonTerminals(c.Context())
 	if err != nil {
-		return err
+		return domain.InternalErr("unable to get json terminals", map[string]any{
+			"error": err.Error(),
+		})
 	}
 
 	var routes []map[string]any
@@ -212,7 +216,9 @@ func (cto Controllers) GetlinesRegexp(c *fiber.Ctx) error {
 
 	stations, err := cto.ons.GetjsonTerminals(c.Context())
 	if err != nil {
-		return err
+		return domain.InternalErr("unable to get json terminals", map[string]any{
+			"error": err.Error(),
+		})
 	}
 
 	keys := make(map[string]bool)
