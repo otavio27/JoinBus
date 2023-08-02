@@ -1,3 +1,4 @@
 {
-  "BASE_URL": "https://owtechsystems.com/app/bus"
+  "BASE_URL": "https://owtechsystems.com/app/bus",
+  "API_URL": "https://owtechsystems.com/joinbus"
 }
