@@ -1,7 +1,10 @@
-version: '3.7'
+version: '3'
 services:
-  quasar:
-    build: .
+  bus:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
     ports:
     - '8190:80'
     volumes:
