@@ -6,7 +6,7 @@ import { Notify } from "quasar";
 
 export default boot(({ app, store /*, router*/ }) => {
   const api = axios.create({
-    baseURL: process.env.BASE_URL, 
+    baseURL: "https://owtechsystems.com/joinbus", 
   });
 
   app.provide(apiKey, api);
