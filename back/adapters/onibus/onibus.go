@@ -5,7 +5,6 @@ import (
 	"context"
 	"encoding/json"
 	"io"
-	"io/ioutil"
 
 	"github.com/otavio27/JoinBus-APP/back-end/structs"
 	"github.com/vingarcia/ddd-go-template/v2-domain-adapters-and-helpers/domain"
@@ -51,6 +50,7 @@ func (a Adapter) GetGeoLocation(latitude string, longitude string) ([]structs.St
 	if err != nil {
 		if resp.StatusCode == 404 {
 			return nil, nil, domain.NotFoundErr("geolocation not found", map[string]any{
+				"code":      resp.StatusCode,
 				"latitude":  latitude,
 				"longitude": longitude,
 			})
@@ -74,7 +74,7 @@ func (a Adapter) GetGeoLocation(latitude string, longitude string) ([]structs.St
 		reader = resp
 	}
 
-	location, err := ioutil.ReadAll(reader)
+	location, err := io.ReadAll(reader)
 	if err != nil {
 		return nil, nil, domain.InternalErr("unexpected error unzipping geolocation from external api", map[string]any{
 			"error": err.Error(),
@@ -141,7 +141,7 @@ func (a Adapter) GetStopTripList(ctx context.Context, stop []string, stopName []
 			reader = resp
 		}
 
-		stoplist, err = ioutil.ReadAll(reader)
+		stoplist, err = io.ReadAll(reader)
 		if err != nil {
 			return nil, nil, domain.InternalErr("unexpected error reading stoplist from external api", map[string]any{
 				"error": err.Error(),
@@ -174,6 +174,7 @@ func (a Adapter) GetItineraries(ctx context.Context, id string) ([]structs.Itine
 	if err != nil {
 		if resp.StatusCode == 404 {
 			return nil, domain.NotFoundErr("itineraries not found", map[string]any{
+				"code":    resp.StatusCode,
 				"line_id": id,
 			})
 		}
@@ -198,7 +199,7 @@ func (a Adapter) GetItineraries(ctx context.Context, id string) ([]structs.Itine
 		reader = resp
 	}
 
-	hours, err := ioutil.ReadAll(reader)
+	hours, err := io.ReadAll(reader)
 	if err != nil {
 		return nil, domain.InternalErr("unexpected error reading itineraries from external api", map[string]any{
 			"error":   err.Error(),
@@ -230,6 +231,7 @@ func (a Adapter) GetjsonTerminals(ctx context.Context) ([]structs.Stations, erro
 	if err != nil {
 		if resp.StatusCode == 404 {
 			return nil, domain.NotFoundErr("terminals not found", map[string]any{
+				"code":  resp.StatusCode,
 				"error": err.Error(),
 			})
 		}
@@ -254,12 +256,14 @@ func (a Adapter) GetjsonTerminals(ctx context.Context) ([]structs.Stations, erro
 	default:
 		reader = resp
 	}
+
 	term, err := io.ReadAll(reader)
 	if err != nil {
 		return nil, domain.InternalErr("unexpected error reading terminals from external api", map[string]any{
 			"error": err.Error(),
 		})
 	}
+
 	var Stations []structs.Stations
 	err = json.Unmarshal(term, &Stations)
 	if err != nil {
