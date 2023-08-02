@@ -3,6 +3,6 @@ services:
   quasar:
     build: .
     ports:
-    - '8190:80'
+    - '8190:8190'
     volumes:
     - '.:/app'
