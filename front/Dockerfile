@@ -1,17 +1,20 @@
-# Build stage
-FROM node:18.17-alpine as develop-stage
-WORKDIR /app
-COPY package*.json ./
-RUN yarn global add @quasar/cli
+FROM node:lts-alpine as global-deps-stage
+RUN npm i --location=global @quasar/cli@latest
+
+FROM global-deps-stage as develop-stage
+WORKDIR /src
+COPY package.json ./
+COPY yarn.lock ./
 COPY . .
 
-# Build stage
-FROM develop-stage as build-stage
+FROM develop-stage as local-deps-stage
 RUN yarn
-RUN quasar build
 
-# Production stage
-FROM nginx:1.25.1-alpine as production-stage
-COPY --from=build-stage /app/dist/spa /usr/share/nginx/html
+FROM local-deps-stage as build-stage
+RUN quasar build -m pwa
+
+FROM nginx:stable-alpine as production-stage
+WORKDIR /app
+COPY --from=build-stage /src/dist/pwa /usr/share/nginx/html
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
