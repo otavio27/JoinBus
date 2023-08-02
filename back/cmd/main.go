@@ -31,18 +31,16 @@ func main() {
 	logger := jsonlog.New("info")
 	app := fiber.New()
 
-	/*
-		app.Use(func(c *fiber.Ctx) error {
-			startTime := time.Now()
-			err := c.Next()
-			logger.Info(ctx, "request received", map[string]any{
-				"method":   c.Method(),
-				"path":     c.Path(),
-				"duration": time.Since(startTime),
-			})
-			return err
+	app.Use(func(c *fiber.Ctx) error {
+		startTime := time.Now()
+		err := c.Next()
+		logger.Info(ctx, "request received", map[string]any{
+			"method":   c.Method(),
+			"path":     c.Path(),
+			"duration": time.Since(startTime),
 		})
-	*/
+		return err
+	})
 
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.JSON(map[string]any{
