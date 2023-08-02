@@ -1,0 +1,8 @@
+version: '3.7'
+services:
+  quasar:
+    build: .
+    ports:
+    - '8190:80'
+    volumes:
+    - '.:/app'
