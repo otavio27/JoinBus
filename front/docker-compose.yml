@@ -6,6 +6,6 @@ services:
       dockerfile: Dockerfile
     restart: always
     ports:
-    - '8190:80'
+    - '8190:443'
     volumes:
     - '.:/app'

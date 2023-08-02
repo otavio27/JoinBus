@@ -13,5 +13,5 @@ RUN quasar build
 # Production stage
 FROM caddy:latest as production-stage
 COPY --from=build-stage /app/dist/spa /srv
-EXPOSE 80
-CMD ["caddy", "file-server", "--root", "/srv", "--listen", "0.0.0.0:80"]
+EXPOSE 443
+CMD ["caddy", "file-server", "--root", "/srv", "--listen", "0.0.0.0:443"]
