@@ -22,6 +22,10 @@ func main() {
 	group := os.Getenv("Group")
 	referer := os.Getenv("Referer")
 	host := os.Getenv("Host")
+	port := os.Getenv("port")
+	if port == "" {
+		port = "80"
+	}
 
 	ctx := context.Background()
 	http := krest.New(30 * time.Second)
@@ -46,7 +50,7 @@ func main() {
 	app.Get("/api/routes/:route", errHandler.Middleware, cto.GetRoutes)
 	app.Get("/api/search/:text", errHandler.Middleware, cto.GetlinesRegexp)
 
-	err := app.Listen(":9750")
+	err := app.Listen(":" + port)
 	if err != nil {
 		log.Fatal(err)
 	}
