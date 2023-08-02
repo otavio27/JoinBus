@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"log"
-	"os"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
@@ -12,20 +11,18 @@ import (
 	"github.com/otavio27/JoinBus-APP/back-end/adapters/onibus"
 	"github.com/otavio27/JoinBus-APP/back-end/cmd/controllers"
 	"github.com/otavio27/JoinBus-APP/back-end/cmd/middlewares"
+	"github.com/otavio27/JoinBus-APP/back-end/helpers/env"
 	"github.com/vingarcia/krest"
 )
 
 func main() {
-	stopsnear := os.Getenv("Stopsnear")
-	stoptripslist := os.Getenv("Stoptripslist")
-	timetable := os.Getenv("Timetable")
-	group := os.Getenv("Group")
-	referer := os.Getenv("Referer")
-	host := os.Getenv("Host")
-	port := os.Getenv("port")
-	if port == "" {
-		port = "80"
-	}
+	stopsnear := env.MustGetString("Stopsnear")
+	stoptripslist := env.MustGetString("Stoptripslist")
+	timetable := env.MustGetString("Timetable")
+	group := env.MustGetString("Group")
+	referer := env.MustGetString("Referer")
+	host := env.MustGetString("Host")
+	port := env.GetString("port", "80")
 
 	ctx := context.Background()
 	http := krest.New(30 * time.Second)
