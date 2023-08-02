@@ -235,7 +235,9 @@ func (a Adapter) GetjsonTerminals(ctx context.Context) ([]structs.Stations, erro
 		}
 
 		return nil, domain.InternalErr("unexpected error when fetching terminals", map[string]any{
-			"error": err.Error(),
+			"method": "GET",
+			"url":    a.group,
+			"error":  err.Error(),
 		})
 	}
 
@@ -252,7 +254,7 @@ func (a Adapter) GetjsonTerminals(ctx context.Context) ([]structs.Stations, erro
 	default:
 		reader = resp
 	}
-	term, err := ioutil.ReadAll(reader)
+	term, err := io.ReadAll(reader)
 	if err != nil {
 		return nil, domain.InternalErr("unexpected error reading terminals from external api", map[string]any{
 			"error": err.Error(),
