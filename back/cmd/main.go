@@ -54,11 +54,11 @@ func main() {
 		AllowOrigins: "*",
 	}))
 
-	app.Get("/geolocation/:lat/:lng", errHandler.Middleware, cto.GetLocation)
-	app.Get("/linhas/:id", errHandler.Middleware, cto.GetItinerary)
-	app.Get("/terminais", errHandler.Middleware, cto.GetTerminals)
-	app.Get("/routes/:route", errHandler.Middleware, cto.GetRoutes)
-	app.Get("/search/:text", errHandler.Middleware, cto.GetlinesRegexp)
+	app.Get("/joinbus/geolocation/:lat/:lng", errHandler.Middleware, cto.GetLocation)
+	app.Get("/joinbus/linhas/:id", errHandler.Middleware, cto.GetItinerary)
+	app.Get("/joinbus/terminais", errHandler.Middleware, cto.GetTerminals)
+	app.Get("/joinbus/routes/:route", errHandler.Middleware, cto.GetRoutes)
+	app.Get("/joinbus/search/:text", errHandler.Middleware, cto.GetlinesRegexp)
 
 	err := app.Listen(":" + port)
 	if err != nil {
