@@ -4,4 +4,4 @@ services:
     build: .
     restart: always
     ports:
-    - '8190:443'
+    - '8290:80'

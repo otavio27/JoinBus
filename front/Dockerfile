@@ -16,5 +16,5 @@ RUN quasar build -m pwa
 FROM nginx:stable-alpine as production-stage
 WORKDIR /app
 COPY --from=build-stage /src/dist/pwa /usr/share/nginx/html
-EXPOSE 443
+EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
