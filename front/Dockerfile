@@ -1,17 +1,20 @@
-FROM node:lts-alpine
+FROM node:lts-alpine as global-deps-stage
+RUN npm i --location=global @quasar/cli@latest
 
-# instala um servidor http simples para servir conteúdo estático
-RUN npm install -g http-server
-
+FROM global-deps-stage as develop-stage
 WORKDIR /src
 COPY package.json ./
 COPY yarn.lock ./
 COPY . .
 
-# instala dependências do projeto
+FROM develop-stage as local-deps-stage
 RUN yarn
-RUN quasar build -m pwa
-COPY . .
 
+FROM local-deps-stage as build-stage
+RUN quasar build -m pwa
+
+FROM nginx:stable-alpine as production-stage
+WORKDIR /app
+COPY --from=build-stage /src/dist/pwa /usr/share/nginx/html
 EXPOSE 80
-CMD [ "http-server", "dist" ]
+CMD ["nginx", "-g", "daemon off;"]
