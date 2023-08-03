@@ -13,8 +13,7 @@ RUN yarn
 FROM local-deps-stage as build-stage
 RUN quasar build -m pwa
 
-FROM nginx:stable-alpine as production-stage
+FROM build-stage
 WORKDIR /app
-COPY --from=build-stage /src/dist/pwa /usr/share/nginx/html
 EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["node", "index.js"]
