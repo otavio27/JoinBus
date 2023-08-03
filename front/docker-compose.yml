@@ -2,7 +2,6 @@ version: '3.7'
 services:
   bus:
     build: .
+    restart: always
     ports:
     - '8190:80'
-    volumes:
-    - '.:/app'
