@@ -13,8 +13,8 @@ RUN yarn
 FROM local-deps-stage as build-stage
 RUN quasar build -m pwa
 
-FROM caddy:latest as production-stage
+FROM nginx:stable-alpine as production-stage
 WORKDIR /app
-COPY --from=build-stage /src/dist/pwa .
+COPY --from=build-stage /src/dist/pwa /usr/share/nginx/html
 EXPOSE 80
-CMD ["caddy", "run", "--config", "Caddyfile"]
+CMD ["nginx", "-g", "daemon off;"]
