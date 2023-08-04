@@ -10,5 +10,5 @@ COPY . .
 RUN yarn
 
 RUN quasar build -m pwa
-
-CMD http-server -p 80 /src/dist/pwa
+RUN mkdir /src/dist/app && mv /src/dist/pwa /src/dist/app/bus
+CMD http-server -p 80 /src/dist
