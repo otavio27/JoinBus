@@ -1,13 +1,7 @@
 version: '3.7'
 services:
-  bus:
-    build: .
+  joinbus:
+    image: otavio27/app_joinbus:0.0.1
     restart: always
     ports:
       - '8290:80'
-    deploy:
-      resources:
-        limits:
-          memory: 512M  
-        reservations:
-          memory: 256M  
