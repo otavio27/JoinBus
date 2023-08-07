@@ -50,18 +50,27 @@ const geolocationStore = useGeolocationStore();
 const { coords, isReady } = storeToRefs(geolocationStore);
 
 onMounted(async () => {
-  $q.loading.show({
-    spinnerColor: "primary",
-    message: "Carregando...",
-    messageColor: "primary",
-  });
-  await isReady.value;
-  const { data } = await api.get(
-    `/geolocation/${coords.value.latitude}/${coords.value.longitude}`
-  );
-  linha.value = data;
-  $q.loading.hide();
+  try {
+    $q.loading.show({
+      spinnerColor: "primary",
+      message: "Carregando...",
+      messageColor: "primary",
+    });
+
+    await isReady.value;
+
+    const { data } = await api.get(
+      `/geolocation/${coords.value.latitude}/${coords.value.longitude}`
+    );
+
+    linha.value = data;
+
+    $q.loading.hide();
+  } catch (error) {
+    $q.loading.hide();
+  }
 });
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
