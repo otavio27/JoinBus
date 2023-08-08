@@ -1,7 +1,7 @@
-version: "3"
+version: "3.8"
 services:
   joinbus:
-    build: .
+    image: otavio27/joinbus:0.0.3
     restart: always
     ports:
       - 9750:80
