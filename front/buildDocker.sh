@@ -22,9 +22,9 @@ if [ $patch -eq 10 ]; then
   fi
 fi
 
-# Atualiza a tag no arquivo docker-compose.yml
 new_tag="$major.$minor.$patch"
 
+# Atualiza a tag no arquivo docker-compose.yml
 sed -i "s|otavio27/app_joinbus:${TG}|otavio27/app_joinbus:${new_tag}|g" docker-compose.yml
 
 docker ps >/dev/null 2>&1
