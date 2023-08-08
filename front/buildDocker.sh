@@ -28,7 +28,7 @@ new_tag="$major.$minor.$patch"
 sed -i "s|otavio27/app_joinbus:${TG}|otavio27/app_joinbus:${new_tag}|g" docker-compose.yml
 
 docker ps >/dev/null 2>&1
-if [ $? -ne 1 ]; then
+if [ $? -eq 1 ]; then
  #O comando sudo setfacl --modify user:otavio:rw /var/run/docker.sock
     #atribui permissões ACL (Access Control List) ao arquivo /var/run/docker.sock
     #para permitir que o usuário otavio tenha permissões de leitura e gravação (read-write) sobre ele.
