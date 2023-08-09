@@ -13,11 +13,9 @@ patch=${TAG_PARTS[2]}
 patch=$((patch + 1))
 
 if [ $patch -eq 10 ]; then
-    patch=0
     minor=$((minor + 1))
 
     if [ $minor -eq 10 ]; then
-        minor=0
         major=$((major + 1))
     fi
 fi
