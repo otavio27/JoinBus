@@ -7,13 +7,13 @@
             <span>{{ terminal }}</span>
           </q-card-section>
           <q-separator></q-separator>
-          <q-card-section class="grid q-pa-md q-gutter-sm">
+          <q-card-section class="grid q-pa-sm q-gutter-sm">
             <q-btn color="primary" style="width: 70%" :to="{ name: 'terminais' }">
               <div class="ellipsis">Voltar</div>
             </q-btn>
           </q-card-section>
           <q-separator></q-separator>
-          <q-card-section class="grid q-pa-md q-gutter-sm" v-for="line in linhas" :key="line.id">
+          <q-card-section class="grid q-pa-sm q-gutter-sm" v-for="line in linhas" :key="line.id">
             <q-btn color="primary" style="width: 70%" :to="{
               name: 'linha',
               params: { terminal: props.terminal, linha: line.id },
