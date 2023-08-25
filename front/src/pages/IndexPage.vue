@@ -6,34 +6,36 @@
           <q-card-section>
             <q-img src="../assets/Joinville.jpg" />
           </q-card-section>
+          <q-separator />
 
-          <q-separator></q-separator>
-
-          <q-card-section v-if="linhas.length > 0">
+          <div v-if="linhas.length > 0">
+            <q-card-section class="grid q-pa-sm q-gutter-sm">
+              <q-btn color="primary" style="width: 70%" @click="refreshPage">
+                <div class="ellipsis">Voltar</div>
+              </q-btn>
+            </q-card-section>
+            <q-separator />
             <div v-for="line in linhas" :key="line.id">
-              <div v-if="line.name !== ''">
+              <q-card-section class="grid q-pa-sm q-gutter-sm" v-if="line.name !== ''">
                 <q-btn color="primary" style="width: 70%" :to="{
                   name: 'linha',
-                  params: { linha: line.id },
+                  params: { terminal: props.terminal, linha: line.id },
                 }">
-                  <div>{{ line.id }} - {{ line.name }}</div>
+                  <div class="ellipsis">{{ line.id }} - {{ line.name }}</div>
                 </q-btn>
-              </div>
+              </q-card-section>
 
-              <div v-else>
-                <q-card-section>
-                  <q-input filled readonly v-model="warning" />
-                </q-card-section>
-                <q-separator></q-separator>
+              <q-card-section class="grid q-pa-sm q-gutter-sm" v-else>
+                <q-icon name="warning" color="warning" size="4rem" />
+                <span class="text-h6 text-center text-grey-7">{{ warning }}</span>
                 <q-btn color="primary" style="width: 70%" @click="refreshPage">
-                  <div>VOLTAR</div>
+                  <div class="ellipsis">Voltar</div>
                 </q-btn>
-                <q-separator></q-separator>
-              </div>
+              </q-card-section>
             </div>
-          </q-card-section>
+          </div>
 
-          <q-card-section class="no-shadow" bordered v-else>
+          <q-card-section v-else>
             <div class="grid q-pa-md q-gutter-sm">
               <q-btn color="primary" style="margin-top: 10%; width: 70%" :to="{ name: 'terminais' }">
                 Terminais

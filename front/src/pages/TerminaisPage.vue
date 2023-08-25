@@ -9,7 +9,7 @@
 
           <q-separator />
 
-          <q-card-section class="grid q-pa-md q-gutter-sm" v-for="station in stattions.name" :key="station.id">
+          <q-card-section class="grid q-pa-sm q-gutter-sm" v-for="station in stattions.name" :key="station.id">
             <q-btn color="primary" style="width: 70%" :to="{ name: 'terminal', params: { terminal: station } }">
               <div class="ellipsis">
                 {{ station }}

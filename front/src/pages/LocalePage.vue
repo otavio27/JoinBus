@@ -10,19 +10,17 @@
           <q-separator />
 
           <div class="q-pb-sm" v-for="lna in linha" :key="lna.id">
-            <q-card class="full-width" style="max-width: 95%">
-              <q-card-section>
-                <span class="text-h6 text-center">{{ lna.id }} {{ lna.name }}</span>
-              </q-card-section>
-              <q-card-section class="q-gutter-sm">
-                <q-input filled readonly v-model="lna.station" />
-                <q-input filled readonly v-model="lna.direction" />
-                <q-input filled readonly v-model="lna.weekday" />
-              </q-card-section>
-              <q-card-section class="q-gutter-sm text-center">
-                <q-chip outline v-for="val in lna.hours" :key="val" color="dark" icon="schedule">{{ val }}</q-chip>
-              </q-card-section>
-            </q-card>
+            <q-card-section>
+              <span class="text-h6 text-center">{{ lna.id }} {{ lna.name }}</span>
+            </q-card-section>
+            <q-card-section class="q-gutter-sm">
+              <q-input filled readonly v-model="lna.station" />
+              <q-input filled readonly v-model="lna.direction" />
+              <q-input filled readonly v-model="lna.weekday" />
+            </q-card-section>
+            <q-card-section class="q-gutter-sm text-center">
+              <q-chip outline v-for="val in lna.hours" :key="val" color="dark" icon="schedule">{{ val }}</q-chip>
+            </q-card-section>
           </div>
         </q-card>
       </div>
