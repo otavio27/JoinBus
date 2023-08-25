@@ -3,23 +3,25 @@
     <div class="row q-col-gutter-lg flex-center">
       <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">
         <q-card class="no-shadow" bordered>
-          <q-card-section class="grid q-pa-md q-gutter-sm">
-            <q-btn color="primary" style="width: 70%" to="/"> Voltar </q-btn>
-          </q-card-section>
-
-          <q-separator />
-
-          <div class="q-pb-sm">
-            <q-card-section class="q-gutter-sm flex-center" v-for="lna in linha" :key="lna.id">
-              <span class="text-h6 text-center">{{ lna.id }} {{ lna.name }}</span>
-              <q-space />
-              <q-input filled readonly v-model="lna.station" />
-              <q-input filled readonly v-model="lna.direction" />
-              <q-input filled readonly v-model="lna.weekday" />
-            </q-card-section>
-            <q-card-section class="q-gutter-sm text-center">
-              <q-chip outline v-for="val in lna.hours" :key="val" color="dark" icon="schedule">{{ val }}</q-chip>
-            </q-card-section>
+          <div class="grid q-pa-md q-gutter-sm">
+            <q-btn color="primary" style="width: 70%" to="/">
+              <div class="ellipsis">Voltar</div>
+            </q-btn>
+          </div>
+          <div class="flex justify-center q-pb-md" v-for="lna in linha" :key="lna.id">
+            <q-card class="full-width" style="max-width: 95%">
+              <q-card-section>
+                <span class="text-h6 text-center">{{ lna.id }} {{ lna.name }}</span>
+              </q-card-section>
+              <q-card-section class="q-gutter-sm">
+                <q-input filled readonly v-model="lna.station" />
+                <q-input filled readonly v-model="lna.direction" />
+                <q-input filled readonly v-model="lna.weekday" />
+              </q-card-section>
+              <q-card-section class="q-gutter-sm text-center">
+                <q-chip outline v-for="val in lna.hours" :key="val" color="dark" icon="schedule">{{ val }}</q-chip>
+              </q-card-section>
+            </q-card>
           </div>
         </q-card>
       </div>
