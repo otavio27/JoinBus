@@ -1,12 +1,12 @@
 <template>
-  <q-layout view="lHh Lpr lFf" style="background-color: #5a5a5a">
-    <q-header elevated>
+  <q-layout view="lHh Lpr lFf" style="background-color: #cecece">
+    <q-header>
       <q-toolbar>
         <q-toolbar-title> JoinBus </q-toolbar-title>
       </q-toolbar>
     </q-header>
 
-    <q-footer elevated class="grid-footer">
+    <q-footer class="grid-footer">
       <q-toolbar>
         <q-toolbar-title>OWTech Systems &copy;</q-toolbar-title>
       </q-toolbar>

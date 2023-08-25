@@ -1,62 +1,50 @@
 <template>
   <q-page class="q-pa-sm">
-    <div class="grid q-pa-md q-gutter-sm">
-      <q-btn
-        v-if="!terminal"
-        color="primary"
-        style="width: 70%"
-        :to="{ name: 'index' }"
-      >
-        <div class="ellipsis">Voltar</div>
-      </q-btn>
+    <div class="row q-col-gutter-lg flex-center">
+      <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">
+        <q-card class="no-shadow" bordered>
+          <div class="grid q-pa-md q-gutter-sm">
+            <q-btn v-if="!terminal" color="primary" style="width: 70%" :to="{ name: 'index' }">
+              <div class="ellipsis">Voltar</div>
+            </q-btn>
 
-      <q-btn
-        v-else
-        color="primary"
-        style="width: 70%"
-        :to="{ name: 'terminal', params: { terminal: props.terminal } }"
-      >
-        <div class="ellipsis">Voltar</div>
-      </q-btn>
-    </div>
+            <q-btn v-else color="primary" style="width: 70%"
+              :to="{ name: 'terminal', params: { terminal: props.terminal } }">
+              <div class="ellipsis">Voltar</div>
+            </q-btn>
+          </div>
+        </q-card>
+        <q-separator />
 
-    <div
-      class="flex justify-center q-pb-md"
-      v-for="hour in hours"
-      :key="hour.id"
-    >
-      <q-card class="full-width" style="max-width: 95%" v-if="hour.hours">
-        <q-card-section>
-          <span class="text-h6 text-center">{{ hour.id }} {{ hour.name }}</span>
-        </q-card-section>
-        <q-card-section class="q-gutter-sm">
-          <q-input filled readonly v-model="hour.station" />
-          <q-input filled readonly v-model="hour.direction" />
-          <q-input filled readonly v-model="hour.weekday" />
-        </q-card-section>
-        <q-card-section class="q-gutter-sm text-center">
-          <q-chip
-            outline
-            v-for="val in hour.hours"
-            :key="val"
-            color="dark"
-            icon="schedule"
-            >{{ val }}</q-chip
-          >
-        </q-card-section>
-      </q-card>
-
-      <q-card class="full-width" style="max-width: 95%" v-else>
-        <q-card-section>
-          <span class="text-h6 text-center"
-            >{{ hours.id }} {{ hours.name }}</span
-          >
-        </q-card-section>
-        <q-card-section class="q-gutter-sm">
-          <q-input filled readonly v-model="warning" />
-        </q-card-section>
-        <q-card-section class="q-gutter-sm text-center"> </q-card-section>
-      </q-card>
+        <div class="q-pb-sm" v-for="hour in hours" :key="hour.id">
+          <q-card class="no-shadow" bordered v-if="hour.hours">
+            <div class="full-width" style="max-width: 95%">
+              <q-card-section>
+                <span class="text-h6 text-center">{{ hour.id }} {{ hour.name }}</span>
+              </q-card-section>
+              <q-card-section class="q-gutter-sm">
+                <q-input filled readonly v-model="hour.station" />
+                <q-input filled readonly v-model="hour.direction" />
+                <q-input filled readonly v-model="hour.weekday" />
+              </q-card-section>
+              <q-card-section class="q-gutter-sm text-center">
+                <q-chip outline v-for="val in hour.hours" :key="val" color="dark" icon="schedule">{{ val }}</q-chip>
+              </q-card-section>
+            </div>
+          </q-card>
+          <q-card class="no-shadow" bordered v-else>
+            <div class="full-width" style="max-width: 95%">
+              <q-card-section>
+                <span class="text-h6 text-center">{{ hours.id }} {{ hours.name }}</span>
+              </q-card-section>
+              <q-card-section class="q-gutter-sm">
+                <q-input filled readonly v-model="warning" />
+              </q-card-section>
+              <q-card-section class="q-gutter-sm text-center"> </q-card-section>
+            </div>
+          </q-card>
+        </div>
+      </div>
     </div>
   </q-page>
 </template>

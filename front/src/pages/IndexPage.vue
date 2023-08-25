@@ -1,86 +1,65 @@
 <template>
-  <div class="q-pa-sm">
-    <q-page class="flex flex-center">
-      <img src="../assets/joinbus.png" style="max-width: 50%" />
+  <q-page class="q-pa-sm">
+    <div class="row q-col-gutter-lg flex-center">
+      <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">
+        <q-card class="no-shadow" bordered>
+          <q-card-section>
+            <q-img src="../assets/Joinville.jpg" />
+          </q-card-section>
 
-      <q-card
-        class="q-ma-md full-width"
-        style="max-width: 95%"
-        v-if="linhas.length > 0"
-      >
-        <q-card-section class="row q-col-gutter-y-md">
-          <div class="col col-12" v-for="line in linhas" :key="line.id">
-            <div v-if="line.name !== ''">
-              <q-btn
-                class="full-width"
-                color="primary"
-                style="width: 70%"
-                :to="{
+          <q-separator></q-separator>
+
+          <q-card-section v-if="linhas.length > 0">
+            <div v-for="line in linhas" :key="line.id">
+              <div v-if="line.name !== ''">
+                <q-btn color="primary" style="width: 70%" :to="{
                   name: 'linha',
                   params: { linha: line.id },
-                }"
-              >
-                <div class="ellipsis">{{ line.id }} - {{ line.name }}</div>
+                }">
+                  <div>{{ line.id }} - {{ line.name }}</div>
+                </q-btn>
+              </div>
+
+              <div v-else>
+                <q-card-section>
+                  <q-input filled readonly v-model="warning" />
+                </q-card-section>
+                <q-separator></q-separator>
+                <q-btn color="primary" style="width: 70%" @click="refreshPage">
+                  <div>VOLTAR</div>
+                </q-btn>
+                <q-separator></q-separator>
+              </div>
+            </div>
+          </q-card-section>
+
+          <q-card-section class="no-shadow" bordered v-else>
+            <div class="grid q-pa-md q-gutter-sm">
+              <q-btn color="primary" style="margin-top: 10%; width: 70%" :to="{ name: 'terminais' }">
+                Terminais
               </q-btn>
             </div>
 
-            <div v-else>
-              <q-card-section class="q-gutter-sm">
-                <q-input filled readonly v-model="warning" />
-              </q-card-section>
-              <q-separator></q-separator>
-              <q-btn
-                class="full-width"
-                color="primary"
-                style="width: 70%"
-                @click="refreshPage"
-              >
-                <div class="ellipsis">VOLTAR</div>
+            <div class="grid q-pa-md q-gutter-sm">
+              <q-btn color="primary" style="width: 70%" :to="{ name: 'locale' }">
+                Localização
               </q-btn>
-              <q-separator></q-separator>
             </div>
-          </div>
-        </q-card-section>
-      </q-card>
 
-      <q-card class="q-ma-md full-width" style="max-width: 95%" v-else>
-        <div class="grid q-pa-md q-gutter-sm">
-          <q-btn
-            color="primary"
-            style="margin-top: 10%; width: 70%"
-            :to="{ name: 'terminais' }"
-          >
-            Terminais
-          </q-btn>
-        </div>
+            <form @submit.prevent="onSearch" class="q-pa-md" style="margin-top: 15%">
+              <!-- a simple text field watching for the enter key release -->
+              <q-input filled color="teal" hint="Digite o nome da linha, ou número." v-model="filter" />
 
-        <div class="grid q-pa-md q-gutter-sm">
-          <q-btn color="primary" style="width: 70%" :to="{ name: 'locale' }">
-            Localização
-          </q-btn>
-        </div>
-
-        <form
-          @submit.prevent="onSearch"
-          class="q-pa-md"
-          style="margin-top: 15%"
-        >
-          <!-- a simple text field watching for the enter key release -->
-          <q-input
-            filled
-            color="teal"
-            hint="Digite o nome da linha, ou número."
-            v-model="filter"
-          />
-
-          <div class="row justify-end">
-            <q-btn type="submit" label="Buscar" class="q-mt-md" color="primary">
-            </q-btn>
-          </div>
-        </form>
-      </q-card>
-    </q-page>
-  </div>
+              <div class="row justify-end">
+                <q-btn type="submit" label="Buscar" class="q-mt-md" color="primary">
+                </q-btn>
+              </div>
+            </form>
+          </q-card-section>
+        </q-card>
+      </div>
+    </div>
+  </q-page>
 </template>
 
 <script setup>
