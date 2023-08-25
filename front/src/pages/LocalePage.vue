@@ -9,11 +9,10 @@
 
           <q-separator />
 
-          <div class="q-pb-sm" v-for="lna in linha" :key="lna.id">
-            <q-card-section>
+          <div class="q-pb-sm">
+            <q-card-section class="q-gutter-sm flex-center" v-for="lna in linha" :key="lna.id">
               <span class="text-h6 text-center">{{ lna.id }} {{ lna.name }}</span>
-            </q-card-section>
-            <q-card-section class="q-gutter-sm">
+              <q-space />
               <q-input filled readonly v-model="lna.station" />
               <q-input filled readonly v-model="lna.direction" />
               <q-input filled readonly v-model="lna.weekday" />

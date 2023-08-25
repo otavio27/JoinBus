@@ -28,9 +28,6 @@
               <q-card-section class="grid q-pa-sm q-gutter-sm" v-else>
                 <q-icon name="warning" color="warning" size="4rem" />
                 <span class="text-h6 text-center text-grey-7">{{ warning }}</span>
-                <q-btn color="primary" style="width: 70%" @click="refreshPage">
-                  <div class="ellipsis">Voltar</div>
-                </q-btn>
               </q-card-section>
             </div>
           </div>
