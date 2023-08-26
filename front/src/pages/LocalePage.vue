@@ -11,7 +11,7 @@
 
           <q-separator />
 
-          <div class="flex justify-center q-pb-md" v-for="lna in linha" :key="lna.id">
+          <div v-for="lna in linha" :key="lna.id">
             <q-card-section>
               <span class="text-h6 text-center">{{ lna.id }} {{ lna.name }}</span>
             </q-card-section>
