@@ -27,6 +27,7 @@
             <q-chip outline v-for="val in lna.hours" :key="val" color="dark" icon="schedule">{{ val }}</q-chip>
           </q-card-section>
         </q-card>
+        <q-separator />
       </div>
     </div>
   </q-page>
