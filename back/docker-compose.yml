@@ -1,6 +1,7 @@
 version: "3.7"
 services:
   joinbus:
+    container_name: joinbus
     image: otavio27/joinbus:0.0.3
     restart: always
     ports:

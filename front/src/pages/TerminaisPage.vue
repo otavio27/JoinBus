@@ -1,44 +1,36 @@
 <template>
-  <q-page class="q-pa-sm">
+  <q-page padding>
+    <div class="text-h3 text-center text-grey-8 q-pa-lg">
+      <span>Terminais</span>
+    </div>
+
     <div class="row q-col-gutter-lg flex-center">
       <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">
-        <q-card class="no-shadow" bordered>
-          <q-card-section class="grid q-pa-md q-gutter-sm">
-            <q-btn color="primary" style="width: 70%" to="/"> Voltar </q-btn>
+        <q-card class="no-shadow">
+          <q-card-section class="grid q-pa-sm q-gutter-sm" v-for="station in  stattions.name " :key="station.id">
+            <q-btn unelevated rounded color="primary" :label="station" style="width: 70%"
+              :to="{ name: 'terminal', params: { terminal: station } }" />
           </q-card-section>
 
-          <q-separator />
-
-          <q-card-section class="grid q-pa-sm q-gutter-sm" v-for="station in stattions.name" :key="station.id">
-            <q-btn color="primary" style="width: 70%" :to="{ name: 'terminal', params: { terminal: station } }">
-              <div class="ellipsis">
-                {{ station }}
-              </div>
-            </q-btn>
+          <q-card-section class="grid q-pa-md q-gutter-sm">
+            <q-btn unelevated rounded color="primary" style="width: 70%" to="/"> Voltar </q-btn>
           </q-card-section>
         </q-card>
       </div>
     </div>
   </q-page>
+  <footer-component />
 </template>
 <script setup>
+import FooterComponent from "src/components/global/FooterComponent.vue";
 import { useApi } from "src/composable/api";
-import { useQuasar } from "quasar";
 import { onMounted, ref } from "vue";
-
-const $q = useQuasar();
 
 let stattions = ref([]);
 
 const api = useApi();
 onMounted(async () => {
-  $q.loading.show({
-    spinnerColor: "primary",
-    message: "Carregando...",
-    messageColor: "primary",
-  });
   const { data } = await api.get("/terminais");
   stattions.value = data;
-  $q.loading.hide();
 });
 </script>

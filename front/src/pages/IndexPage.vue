@@ -1,67 +1,64 @@
 <template>
-  <q-page class="q-pa-sm">
-    <div class="row q-col-gutter-lg flex-center">
-      <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">
-        <q-card class="no-shadow" bordered>
-          <q-card-section>
-            <q-img src="../assets/Joinville.jpg" />
+  <q-page padding>
+    <q-card class="no-shadow q-mt-md">
+      <q-card-section>
+        <q-img src="../assets/Joinville.jpg" />
+      </q-card-section>
+      <q-separator />
+
+      <div v-if="linhas.length > 0">
+        <q-card-section class="grid q-pa-sm q-gutter-sm">
+          <q-btn unelevated rounded color="primary" style="width: 70%" @click="refreshPage">
+            <div class="ellipsis">Voltar</div>
+          </q-btn>
+        </q-card-section>
+        <q-separator />
+        <div v-for="line in linhas" :key="line.id">
+          <q-card-section class="grid q-pa-sm q-gutter-sm" v-if="line.name !== ''">
+            <q-btn unelevated rounded color="primary" style="width: 70%" :to="{
+              name: 'linha',
+              params: { terminal: props.terminal, linha: line.id },
+            }">
+              <div class="ellipsis">{{ line.id }} - {{ line.name }}</div>
+            </q-btn>
           </q-card-section>
-          <q-separator />
 
-          <div v-if="linhas.length > 0">
-            <q-card-section class="grid q-pa-sm q-gutter-sm">
-              <q-btn color="primary" style="width: 70%" @click="refreshPage">
-                <div class="ellipsis">Voltar</div>
-              </q-btn>
-            </q-card-section>
-            <q-separator />
-            <div v-for="line in linhas" :key="line.id">
-              <q-card-section class="grid q-pa-sm q-gutter-sm" v-if="line.name !== ''">
-                <q-btn color="primary" style="width: 70%" :to="{
-                  name: 'linha',
-                  params: { terminal: props.terminal, linha: line.id },
-                }">
-                  <div class="ellipsis">{{ line.id }} - {{ line.name }}</div>
-                </q-btn>
-              </q-card-section>
-
-              <q-card-section class="grid q-pa-sm q-gutter-sm" v-else>
-                <q-icon name="warning" color="warning" size="4rem" />
-                <span class="text-h6 text-center text-grey-7">{{ warning }}</span>
-              </q-card-section>
-            </div>
-          </div>
-
-          <q-card-section v-else>
-            <div class="grid q-pa-md q-gutter-sm">
-              <q-btn color="primary" style="margin-top: 10%; width: 70%" :to="{ name: 'terminais' }">
-                Terminais
-              </q-btn>
-            </div>
-
-            <div class="grid q-pa-md q-gutter-sm">
-              <q-btn color="primary" style="width: 70%" :to="{ name: 'locale' }">
-                Localização
-              </q-btn>
-            </div>
-
-            <form @submit.prevent="onSearch" class="q-pa-md" style="margin-top: 15%">
-              <!-- a simple text field watching for the enter key release -->
-              <q-input filled color="teal" hint="Digite o nome da linha, ou número." v-model="filter" />
-
-              <div class="row justify-end">
-                <q-btn type="submit" label="Buscar" class="q-mt-md" color="primary">
-                </q-btn>
-              </div>
-            </form>
+          <q-card-section class="grid q-pa-sm q-gutter-sm" v-else>
+            <q-icon name="warning" color="warning" size="4rem" />
+            <span class="text-h6 text-center text-grey-7">{{ warning }}</span>
           </q-card-section>
-        </q-card>
+        </div>
       </div>
-    </div>
+
+      <q-card-section v-else>
+        <div class="grid q-pa-md q-gutter-sm">
+          <q-btn unelevated rounded color="primary" style="margin-top: 10%; width: 70%" :to="{ name: 'terminais' }">
+            Terminais
+          </q-btn>
+        </div>
+
+        <div class="grid q-pa-md q-gutter-sm">
+          <q-btn unelevated rounded color="primary" style="width: 70%" :to="{ name: 'locale' }">
+            Localização
+          </q-btn>
+        </div>
+
+        <form @submit.prevent="onSearch" class="q-pa-md" style="margin-top: 15%">
+          <!-- a simple text field watching for the enter key release -->
+          <q-input filled color="teal" hint="Digite o nome da linha, ou número." v-model="filter" />
+
+          <div class="row justify-end">
+            <q-btn unelevated rounded type="submit" label="Buscar" class="q-mt-md" color="primary" />
+          </div>
+        </form>
+      </q-card-section>
+    </q-card>
   </q-page>
+  <footer-component />
 </template>
 
 <script setup>
+import FooterComponent from "src/components/global/FooterComponent.vue"
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useRoute } from "vue-router";

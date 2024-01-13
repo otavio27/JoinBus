@@ -1,7 +1,8 @@
 version: '3.7'
 services:
   joinbus:
-    image: otavio27/app_joinbus:0.1.7
+    container_name: joinbus-ui
+    image: otavio27/app_joinbus:0.1.8
     restart: always
     ports:
       - '8290:80'
